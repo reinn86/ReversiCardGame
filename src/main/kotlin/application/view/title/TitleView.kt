@@ -35,6 +35,7 @@ class TitleView(dimension: Dimension) : SceneView(dimension),ActionListener{
         add(settingButton)
         add(titleCallLabel)
         add(startButton)
+        println("test")
     }
 
     @Override
