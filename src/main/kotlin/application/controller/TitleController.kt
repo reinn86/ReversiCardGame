@@ -7,18 +7,19 @@ import domain.model.Resolution
 object TitleController {
     const val OPEN_SETTING = "OPEN_SETTING"
     const val MOVE_HOME = "MOVE_HOME"
+
+    //アプリの表示領域の大きさ関連の変数
+    private val appDimension = Resolution.WIDE_SVGA.toDimension()
+    //views
+//    private val window = Window(appDimension)
+    private val titleView = TitleView(appDimension)
+
     /*
      * 初期化時にはウィンドウを生成する
      */
     init {
-        //アプリの表示領域の大きさ関連の変数
-        val appDimension = Resolution.WIDE_SVGA.toDimension()
-        //views
-        val window = Window(appDimension)
-        val titleView = TitleView(appDimension)
-
-        window.add(titleView)
-        
+        Window.createWindow(appDimension)
+        Window.contentPane = titleView
     }
     fun request(command: String?) {
         when(command) {
@@ -36,12 +37,17 @@ object TitleController {
         /*
          * TODO 設定画面の作成
          */
+
+
     }
 
     private fun moveScene() {
         /*
-         * TODO 親クラスを作ってそこに記述する
          * TODO 次のシーンの作成
          */
+        HomeController
+//        Window.removeAll()
+        Window.validate()
+        Window.repaint()
     }
 }

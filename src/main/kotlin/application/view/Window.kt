@@ -4,7 +4,7 @@ import java.awt.Dimension
 import javax.swing.JFrame
 import javax.swing.WindowConstants
 
-class Window (dimension: Dimension) : JFrame() {
+object Window : JFrame() {
     /*
      * TODO モニターのサイズについて
      *  モニターのサイズを取得してウィンドウを最適なサイズにする
@@ -14,13 +14,6 @@ class Window (dimension: Dimension) : JFrame() {
      *  (画面の上部を真ん中に持ってくるなど)をする必要がある
      */
     init {
-        defaultCloseOperation = WindowConstants.EXIT_ON_CLOSE
-        isResizable = false
-        isVisible = true
-        size = fixSize(dimension)
-        title = "ReversiCardGame"
-
-        setLocationRelativeTo(null)
     }
 
     /*
@@ -28,5 +21,15 @@ class Window (dimension: Dimension) : JFrame() {
      */
     private fun fixSize(dimension: Dimension): Dimension {
         return Dimension(dimension.width + 16,dimension.height + 39)
+    }
+
+    fun createWindow(dimension: Dimension) {
+        defaultCloseOperation = WindowConstants.EXIT_ON_CLOSE
+        isResizable = false
+        isVisible = true
+        size = fixSize(dimension)
+        title = "ReversiCardGame"
+
+        setLocationRelativeTo(null)
     }
 }
