@@ -18,12 +18,14 @@ class TitleView(dimension: Dimension) : SceneView(dimension),ActionListener{
         //settingButtonの設定
         settingButton.size = Dimension(vw(15.0),vh(7.5))
         settingButton.text = "設定"
+        settingButton.actionCommand = TitleController.OPEN_SETTING
         settingButton.addActionListener(this)
         settingButton.setLocation(vw(84.0),vh(1.0))
         //startButtonの設定
         startButton.isContentAreaFilled = false
         startButton.size = Dimension(vw(100.0),vh(75.0))
         startButton.text = "start"
+        startButton.actionCommand = TitleController.MOVE_HOME
         startButton.addActionListener(this)
         startButton.setLocation(vw(0.0),vh(25.0))
         //titleCallLabelの設定
@@ -39,6 +41,6 @@ class TitleView(dimension: Dimension) : SceneView(dimension),ActionListener{
 
     @Override
     override fun actionPerformed(e: ActionEvent?) {
-        TitleController.test()
+        TitleController.request(e?.actionCommand)
     }
 }
