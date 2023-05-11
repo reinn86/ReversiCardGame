@@ -16,6 +16,7 @@ object TitleController {
 
     /*
      * 初期化時にはウィンドウを生成する
+     * TODO タイトルビューをウィンドウに追加するのは別メソッドでやる
      */
     init {
         Window.createWindow(appDimension)
@@ -46,8 +47,6 @@ object TitleController {
          * TODO 次のシーンの作成
          */
         HomeController
-//        Window.removeAll()
-        Window.validate()
-        Window.repaint()
+
     }
 }

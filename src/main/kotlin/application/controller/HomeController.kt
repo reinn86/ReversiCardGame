@@ -14,7 +14,9 @@ object HomeController {
 
         println("test")
         Window.contentPane = homeView
-        Window.validate()
-        Window.repaint()
+    }
+
+    fun moveTitle() {
+        TitleController.
     }
 }
