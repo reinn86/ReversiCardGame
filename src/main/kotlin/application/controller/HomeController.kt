@@ -1,22 +1,28 @@
 package application.controller
 
+import application.view.SceneView
 import application.view.Window
 import application.view.home.HomeView
-import domain.model.Resolution
+import java.awt.event.ActionEvent
 
-object HomeController {
-    //アプリの表示領域の大きさ関連の変数
-    private val appDimension = Resolution.WIDE_SVGA.toDimension()
+object HomeController : Controller(){
     //views
+    override val sceneView: SceneView = HomeView(appDimension)
     private val homeView = HomeView(appDimension)
 
-    init {
-
-        println("test")
+    @Override
+    override fun start() {
         Window.contentPane = homeView
+        Window.validate()
+        Window.repaint()
+    }
+
+    @Override
+    override fun actionPerformed(e: ActionEvent?) {
+        TODO("Not yet implemented")
     }
 
     fun moveTitle() {
-        TitleController.
+        TitleController.start()
     }
 }

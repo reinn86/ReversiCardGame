@@ -13,6 +13,7 @@ class HomeView(dimension: Dimension) : SceneView(dimension),ActionListener {
         val moveTitleButton = JButton()
 
         moveTitleButton.size = Dimension(vw(10.0),vw(10.0))
+        moveTitleButton.addActionListener(this)
         moveTitleButton.setLocation(vw(0.0),vh(0.0))
 
         add(moveTitleButton)
