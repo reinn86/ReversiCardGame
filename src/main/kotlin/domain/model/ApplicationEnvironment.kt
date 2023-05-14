@@ -1,9 +1,9 @@
 package domain.model
 
-class ApplicationEnvironment {
-    val appDimension = Resolution.WIDE_SVGA.toDimension()
-    val bgmVolume = 0
-    val seVolume = 0
+object ApplicationEnvironment {
+    var appResolution = Resolution.WIDE_SVGA
+    var bgmVolume = 0
+    var seVolume = 0
 
     /*
      * 入力されたbgm音量の値が正しいかチェック

@@ -1,14 +1,24 @@
 package application.controller
 
 import application.view.SceneView
-import domain.model.ApplicationEnvironment
+import application.view.Window
 import java.awt.event.ActionListener
 
 abstract class Controller : ActionListener{
-    //アプリの表示領域の大きさ関連の変数
-    open val appDimension = ApplicationEnvironment().appDimension
-    //コントローラーが扱うシーンビュー
-    abstract val sceneView : SceneView
-
+    abstract val sceneView: SceneView
     abstract fun start()
+
+    open fun startScene() {
+        Window.contentPane = sceneView
+        Window.validate()
+        Window.repaint()
+    }
+
+    open fun resize() {
+        sceneView.resize()
+    }
+
+    open fun moveScene(controller: Controller) {
+        controller.start()
+    }
 }

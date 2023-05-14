@@ -1,20 +1,16 @@
 package application.controller
 
-import application.view.SceneView
 import application.view.Window
-import application.view.home.HomeView
+import application.view.home.HomeScene
 import java.awt.event.ActionEvent
 
 object HomeController : Controller(){
     //views
-    override val sceneView: SceneView = HomeView(appDimension)
-    private val homeView = HomeView(appDimension)
+    override val sceneView = HomeScene()
 
     @Override
     override fun start() {
-        Window.contentPane = homeView
-        Window.validate()
-        Window.repaint()
+        startScene()
     }
 
     @Override
