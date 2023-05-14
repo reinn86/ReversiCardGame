@@ -9,6 +9,7 @@ object SettingController : Controller(){
     //このコントローラーで受け取る処理命令
     const val MOVE_TITLE = "MOVE_TITLE"
     const val CHANGE_RESOLUTION = "CHANGE_RESOLUTION"
+
     //scene
     override val sceneView = SettingScene()
 
@@ -19,7 +20,7 @@ object SettingController : Controller(){
                 moveScene(TitleController)
             }
             CHANGE_RESOLUTION -> {
-                ApplicationEnvironment.appResolution = sceneView.getSelectItem()
+                ApplicationEnvironment.appResolution = sceneView.getSelectResolution()
                 Window.changeResolution(ApplicationEnvironment.appResolution.toDimension())
                 SettingController.resize()
                 TitleController.resize()

@@ -1,10 +1,12 @@
 package application.controller
 
-import application.view.Window
 import application.view.home.HomeScene
 import java.awt.event.ActionEvent
 
 object HomeController : Controller(){
+    //このコントローラーで受け取る処理命令
+    const val MOVE_TITLE = "MOVE_TITLE"
+
     //views
     override val sceneView = HomeScene()
 
@@ -15,10 +17,10 @@ object HomeController : Controller(){
 
     @Override
     override fun actionPerformed(e: ActionEvent?) {
-        TODO("Not yet implemented")
-    }
-
-    fun moveTitle() {
-        TitleController.start()
+        when(e?.actionCommand) {
+            MOVE_TITLE -> {
+                moveScene(TitleController)
+            }
+        }
     }
 }

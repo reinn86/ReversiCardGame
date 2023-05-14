@@ -16,31 +16,27 @@ class SettingScene : SceneView() {
 
     init {
         //prevButtonの設定
-//        prevButton.size = Dimension(vw(15.0),vw(15.0))
-        prevButton.text = "戻る"
         prevButton.actionCommand = SettingController.MOVE_TITLE
+        prevButton.text = "戻る"
         prevButton.addActionListener(SettingController)
-//        prevButton.setLocation(vw(1.0),vw(1.0))
+
         //resolutionSelectTextの設定
-//        resolutionSelectText.size = Dimension(vw(45.0),vh(10.0))
         resolutionSelectText.background = Color.CYAN
         resolutionSelectText.isOpaque = true
         resolutionSelectText.text = "解像度"
-//        resolutionSelectText.setLocation(vw(5.0),vh(10.0))
+
         //resolutionSelectButtonの設定
-//        resolutionSelectButton.size = Dimension(vw(45.0),vh(10.0))
-//        resolutionSelectButton.setLocation(vw(50.0),vh(10.0))
         resolutionSelectButton.actionCommand = SettingController.CHANGE_RESOLUTION
         resolutionSelectButton.addActionListener(SettingController)
 
-        boundsComponent()
         //viewの配置
+        boundsComponent()
         add(prevButton)
         add(resolutionSelectText)
         add(resolutionSelectButton)
     }
 
-    fun getSelectItem() : Resolution {
+    fun getSelectResolution() : Resolution {
         return resolutionSelectButton.resolutions[resolutionSelectButton.selectedIndex]
     }
 
@@ -52,13 +48,5 @@ class SettingScene : SceneView() {
         prevButton.setLocation(vw(1.0),vw(1.0))
         resolutionSelectText.setLocation(vw(5.0),vh(10.0))
         resolutionSelectButton.setLocation(vw(50.0),vh(10.0))
-    }
-
-    @Override
-    override fun resize() {
-        super.resize()
-        boundsComponent()
-        validate()
-        repaint()
     }
 }

@@ -9,6 +9,7 @@ object TitleController : Controller(){
     //このコントローラーで受け取る処理命令
     const val MOVE_SETTING = "OPEN_SETTING"
     const val MOVE_HOME = "MOVE_HOME"
+
     //scene
     override val sceneView = TitleScene()
 
@@ -16,7 +17,7 @@ object TitleController : Controller(){
     override fun actionPerformed(e: ActionEvent?) {
         when(e?.actionCommand) {
             MOVE_HOME -> {
-                test()
+//                test()
                 moveScene(HomeController)
             }
             MOVE_SETTING -> {

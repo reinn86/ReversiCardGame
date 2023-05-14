@@ -13,21 +13,23 @@ class TitleScene : SceneView(){
     private val titleCallLabel = JLabel()
 
     init {
-
         //settingButtonの設定
-        settingButton.text = "設定"
         settingButton.actionCommand = TitleController.MOVE_SETTING
+        settingButton.text = "設定"
         settingButton.addActionListener(TitleController)
+
         //startButtonの設定
+        startButton.actionCommand = TitleController.MOVE_HOME
         startButton.isContentAreaFilled = false
         startButton.text = "start"
-        startButton.actionCommand = TitleController.MOVE_HOME
         startButton.addActionListener(TitleController)
+
         //titleCallLabelの設定
         titleCallLabel.isOpaque = true
         titleCallLabel.text = "Reversi Card Game"
-        boundsComponent()
+
         //viewの配置
+        boundsComponent()
         add(settingButton)
         add(titleCallLabel)
         add(startButton)
@@ -41,13 +43,5 @@ class TitleScene : SceneView(){
         startButton.setLocation(vw(0.0),vh(25.0))
         titleCallLabel.size = Dimension(vw(80.0),vh(20.0))
         titleCallLabel.setLocation(vw(10.0),vh(15.0))
-    }
-
-    @Override
-    override fun resize() {
-        super.resize()
-        boundsComponent()
-        validate()
-        repaint()
     }
 }

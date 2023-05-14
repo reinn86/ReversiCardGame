@@ -4,22 +4,24 @@ import domain.model.ApplicationEnvironment
 import java.awt.Color
 import javax.swing.JPanel
 
-abstract class SceneView : JPanel() {
+abstract class SceneView : JPanel(){
+    
     init {
         size = ApplicationEnvironment.appResolution.toDimension()
         background = Color.CYAN
         layout = null
     }
 
+    /*
+     * TODO 将来的にはboundsComponent()は使わずにリサイズできるようにしたい
+     */
     abstract fun boundsComponent()
 
     open fun resize() {
         size = ApplicationEnvironment.appResolution.toDimension()
-        println(javaClass)
-        for (i in components) {
-            println(i)
-        }
-
+        boundsComponent()
+        validate()
+        repaint()
     }
 
     fun vw(double: Double): Int {
