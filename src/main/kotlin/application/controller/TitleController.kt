@@ -21,7 +21,8 @@ object TitleController : Controller(){
                 moveScene(HomeController)
             }
             MOVE_SETTING -> {
-                moveScene(SettingController)
+
+//                moveScene(SettingController)
             }
         }
     }
