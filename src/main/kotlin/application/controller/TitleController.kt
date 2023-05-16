@@ -17,12 +17,11 @@ object TitleController : Controller(){
     override fun actionPerformed(e: ActionEvent?) {
         when(e?.actionCommand) {
             MOVE_HOME -> {
-//                test()
-                moveScene(HomeController)
+                test()
+//                moveScene(HomeController)
             }
             MOVE_SETTING -> {
-
-//                moveScene(SettingController)
+                moveScene(SettingController)
             }
         }
     }
