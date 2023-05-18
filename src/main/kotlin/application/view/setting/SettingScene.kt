@@ -1,14 +1,14 @@
 package application.view.setting
 
 import application.controller.SettingController
-import application.view.SceneView
+import application.view.SceneAbstractPanel
 import domain.model.Resolution
 import java.awt.Color
 import java.awt.Dimension
 import javax.swing.JButton
 import javax.swing.JLabel
 
-class SettingScene : SceneView() {
+class SettingScene : SceneAbstractPanel() {
     //views
     private val prevButton = JButton()
     private val resolutionSelectText = JLabel()

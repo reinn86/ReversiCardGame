@@ -1,11 +1,11 @@
 package application.view.home
 
 import application.controller.HomeController
-import application.view.SceneView
+import application.view.SceneAbstractPanel
 import java.awt.Dimension
 import javax.swing.JButton
 
-class HomeScene : SceneView() {
+class HomeScene : SceneAbstractPanel() {
     //views
     private val moveTitleButton = JButton()
     private val moveCasualBattleButton = JButton()

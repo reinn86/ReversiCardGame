@@ -1,21 +1,21 @@
 package application.controller
 
-import application.view.SceneView
+import application.view.SceneAbstractPanel
 import application.view.Window
 import java.awt.event.ActionListener
 
 abstract class Controller : ActionListener{
-    abstract val sceneView: SceneView
+    abstract val scenePanel: SceneAbstractPanel
     abstract fun start()
 
     open fun startScene() {
-        Window.contentPane = sceneView
+        Window.contentPane = scenePanel
         Window.validate()
         Window.repaint()
     }
 
     open fun resize() {
-        sceneView.resize()
+        scenePanel.resize()
     }
 
     open fun moveScene(controller: Controller) {

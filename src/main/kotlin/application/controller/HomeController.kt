@@ -8,7 +8,7 @@ object HomeController : Controller(){
     const val MOVE_TITLE = "MOVE_TITLE"
 
     //views
-    override val sceneView = HomeScene()
+    override val scenePanel = HomeScene()
 
     @Override
     override fun start() {
