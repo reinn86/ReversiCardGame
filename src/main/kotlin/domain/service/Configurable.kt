@@ -2,16 +2,19 @@ package domain.service
 
 import com.moandjiezana.toml.Toml
 import domain.model.Resolution
-import java.io.File
 import java.io.FileInputStream
 import java.lang.Class.forName
 
-class Configure {
-    val path = "./src/main/resources/config.toml"
-    val inputStream = FileInputStream(File(path))
-    val toml = Toml().read(inputStream)
-
-    private val resolution = getResolution()
+/*
+ * TODO いんたーふぇーすにしたほうがいいかも
+ */
+interface Configurable {
+    val path: String
+//    = "./src/main/resources/config.toml"
+    val inputStream: FileInputStream
+//    = FileInputStream(File(path))
+    val toml: Toml
+//    = Toml().read(inputStream)
 
     fun createConfigFile() {
         val tes = forName(getResolution())

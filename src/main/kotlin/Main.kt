@@ -1,11 +1,11 @@
 
 import application.controller.TitleController
 import application.view.Window
-import domain.service.Configure
+import domain.service.Configurable
 
 fun main() {
     Window.createWindow()
     TitleController.start()
-    val test = Configure()
+    val test = Configurable()
     test.createConfigFile()
 }
