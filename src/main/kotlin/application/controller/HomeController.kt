@@ -1,6 +1,6 @@
 package application.controller
 
-import application.view.home.HomeScene
+import application.view.main.home.Home
 import java.awt.event.ActionEvent
 
 object HomeController : Controller(){
@@ -8,19 +8,9 @@ object HomeController : Controller(){
     const val MOVE_TITLE = "MOVE_TITLE"
 
     //views
-    override val scenePanel = HomeScene()
-
-    @Override
-    override fun start() {
-        startScene()
-    }
+    override val scene = Home()
 
     @Override
     override fun actionPerformed(e: ActionEvent?) {
-        when(e?.actionCommand) {
-            MOVE_TITLE -> {
-                moveScene(TitleController)
-            }
-        }
     }
 }

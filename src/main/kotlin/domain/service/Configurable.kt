@@ -10,11 +10,8 @@ import java.lang.Class.forName
  */
 interface Configurable {
     val path: String
-//    = "./src/main/resources/config.toml"
     val inputStream: FileInputStream
-//    = FileInputStream(File(path))
     val toml: Toml
-//    = Toml().read(inputStream)
 
     fun createConfigFile() {
         val tes = forName(getResolution())
@@ -23,7 +20,6 @@ interface Configurable {
         if (test != null) {
             println(test.toDimension().width)
         }
-//        println(tes)
     }
 
     fun getByName(name: String) : Resolution? {
@@ -35,13 +31,6 @@ interface Configurable {
         }
         return null
     }
-
-//    fun write(attr: String, any: Any): Boolean {
-//        if() {
-//           toml.entrySet()
-//        }
-//        return false
-//    }
 
     fun getResolution(): String {
         return toml.getString("resolution")

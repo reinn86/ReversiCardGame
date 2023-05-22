@@ -18,4 +18,11 @@ object ApplicationEnvironment {
     fun seVolumeCheck(seVolume: Int): Boolean {
         return seVolume in 0 .. 100
     }
+
+    fun changeAppResolution(resolution: Resolution) {
+        /*
+         * TODO 設定ファイルに変更を書き込むようにする
+         */
+        appResolution = resolution
+    }
 }

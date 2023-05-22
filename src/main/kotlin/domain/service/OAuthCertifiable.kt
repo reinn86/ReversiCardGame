@@ -11,18 +11,13 @@ interface OAuthCertifiable {
         val scope  = "email"
         val accessType = "offline&approval_prompt=force"
 
-        val url = "${siteURL}" +
+        val url = siteURL +
                 "&client_id=${clientId}" +
                 "&redirect_uri=${redirectURI}" +
                 "&scope=${scope}" +
                 "&access_type=${accessType}"
-
         val desktop = Desktop.getDesktop()
-        println(System.getProperties())
+
         desktop.browse(URI(url))
-    }
-
-    fun getUserInfo() {
-
     }
 }
