@@ -10,11 +10,19 @@ class RelativeLayout : LayoutManager2{
     private var componentsMap = HashMap<Component, RelativeConstraints>()
     private val defaultConstraints = RelativeConstraints()
 
-    override fun addLayoutComponent(comp: Component, constraints: Any) {
+    override fun addLayoutComponent(comp: Component, constraints: Any?) {
+        val app = ApplicationEnvironment.appResolution.toDimension()
+        val cons  = RelativeConstraints()
+
+        cons.x = (comp.x.toDouble() / (app.width.toDouble() / 9.0))
+        cons.y = (comp.y.toDouble() / (app.height.toDouble() / 16.0))
+        cons.width = (comp.width.toDouble() / (app.width.toDouble() / 9.0))
+        cons.height = (comp.height.toDouble() / (app.height.toDouble() / 16.0))
+
         if(constraints is  RelativeConstraints) {
             setConstraints(comp,constraints)
         } else {
-            throw IllegalAccessException("レイアウトを追加できませんでした")
+            setConstraints(comp,cons)
         }
     }
 
@@ -69,15 +77,11 @@ class RelativeLayout : LayoutManager2{
         val comps = parent.components
 
         for(comp in comps) {
-            val parentWidth = comp.width
-            val parentHeight = comp.height
             val cons = lookupConstraints(comp)
-
-            println(parent.size.height)
-            val x = (parent.size.width * (cons.x / 100.0)).toInt()
-            val y = (parent.size.height * (cons.y / 100.0)).toInt()
-            val width = (parent.size.width * (cons.width / 100.0)).toInt()
-            val height = (parent.size.width * (cons.height / 100.0)).toInt()
+            val x = (parent.size.width * (cons.x / 9.0)).toInt()
+            val y = (parent.size.height * (cons.y / 16.0)).toInt()
+            val width = (parent.size.width * (cons.width / 9.0)).toInt()
+            val height = (parent.size.height * (cons.height / 16.0)).toInt()
             comp.setBounds(x,y,width,height)
         }
     }

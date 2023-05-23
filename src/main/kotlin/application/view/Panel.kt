@@ -9,7 +9,7 @@ open class Panel : JPanel(){
     init {
         size = ApplicationEnvironment.appResolution.toDimension()
         background = Color.CYAN
-        layout = null
+        layout = RelativeLayout()
         isVisible = true
     }
 

@@ -46,8 +46,8 @@ object TitleController : Controller(),OAuthCertifiable {
     @Override
     override fun start() {
         super.start()
-        scene.add(setting)
         scene.add(welcome)
+        scene.add(setting)
         scene.first()
     }
 }
