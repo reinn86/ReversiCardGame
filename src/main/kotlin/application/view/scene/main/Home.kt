@@ -1,9 +1,11 @@
-package application.view.main
+package application.view.scene.main
 
-import application.view.Scene
+import application.controller.HomeController
+import application.view.Panel
+import java.awt.Dimension
 import javax.swing.JButton
 
-class Home : Scene() {
+class Home : Panel() {
     //views
     private val moveTitleButton = JButton()
     private val moveCasualBattleButton = JButton()
@@ -11,20 +13,20 @@ class Home : Scene() {
 
     init {
 //        //moveTitleButtonの設定
-//        moveTitleButton.actionCommand = HomeController.MOVE_TITLE
-//        moveTitleButton.size = Dimension(vw(10.0),vw(10.0))
-//        moveTitleButton.addActionListener(HomeController)
-//        moveTitleButton.setLocation(vw(0.0),vh(0.0))
-//
-//        //moveRankBattleButtonの設定
-//        moveRankBattleButton.size = Dimension(vw(90.0),vh(10.0))
-//        moveRankBattleButton.addActionListener(HomeController)
-//        moveRankBattleButton.setLocation(vw(5.0),vh(60.0))
-//
-//        //moveCasualBattleButtonの設定
-//        moveCasualBattleButton.size = Dimension(vw(90.0),vh(10.0))
-//        moveCasualBattleButton.addActionListener(HomeController)
-//        moveCasualBattleButton.setLocation(vw(5.0),vh(80.0))
+        moveTitleButton.actionCommand = HomeController.MOVE_TITLE
+        moveTitleButton.size = Dimension(vw(10.0),vw(10.0))
+        moveTitleButton.addActionListener(HomeController)
+        moveTitleButton.setLocation(vw(0.0),vh(0.0))
+
+        //moveRankBattleButtonの設定
+        moveRankBattleButton.size = Dimension(vw(90.0),vh(10.0))
+        moveRankBattleButton.addActionListener(HomeController)
+        moveRankBattleButton.setLocation(vw(5.0),vh(60.0))
+
+        //moveCasualBattleButtonの設定
+        moveCasualBattleButton.size = Dimension(vw(90.0),vh(10.0))
+        moveCasualBattleButton.addActionListener(HomeController)
+        moveCasualBattleButton.setLocation(vw(5.0),vh(80.0))
 
         //viewの配置
         add(moveTitleButton)

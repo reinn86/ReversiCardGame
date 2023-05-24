@@ -1,9 +1,8 @@
 package application.controller
 
-import application.view.Scene
 import application.view.Window
-import application.view.title.setting.Setting
-import application.view.title.welcom.Welcome
+import application.view.scene.welcome.Setting
+import application.view.scene.welcome.Welcome
 import domain.model.ApplicationEnvironment
 import domain.service.OAuthCertifiable
 import java.awt.event.ActionEvent
@@ -16,38 +15,34 @@ object TitleController : Controller(),OAuthCertifiable {
     const val CHANGE_RESOLUTION = "CHANGE_RESOLUTION"
 
     //scene
-    override val scene = Scene()
-    private val welcome = Welcome()
+    override val scene = Welcome()
+    /*
+     * TODO 本来はシーンパネルの中に入ってるべきなので修正
+     */
     private val setting = Setting()
-//    private val login = Login()
 
     @Override
     override fun actionPerformed(e: ActionEvent?) {
         when(e?.actionCommand) {
             MOVE_HOME -> {
-                authenticateGoogle()
-//                moveScene(HomeController)
+//                authenticateGoogle()
+                changeController(HomeController)
             }
             MOVE_SETTING -> {
-                scene.next()
+                Window.contentPane = setting
             }
             MOVE_TITLE -> {
-                scene.first()
+                Window.contentPane = scene
             }
             CHANGE_RESOLUTION -> {
+                /*
+                 * TODO そもそもこのコマンドいらないから別の方法で実装
+                 */
                 val newResolution = setting.getNewResolution()
 
                 ApplicationEnvironment.changeAppResolution(newResolution)
                 Window.changeResolution(newResolution.toDimension())
             }
         }
-    }
-
-    @Override
-    override fun start() {
-        super.start()
-        scene.add(welcome)
-        scene.add(setting)
-        scene.first()
     }
 }

@@ -1,4 +1,4 @@
-package application.view
+package application.view.layout
 
 import java.io.Serializable
 

@@ -1,6 +1,6 @@
 package application.controller
 
-import application.view.main.home.Home
+import application.view.scene.main.Home
 import java.awt.event.ActionEvent
 
 object HomeController : Controller(){
@@ -12,5 +12,10 @@ object HomeController : Controller(){
 
     @Override
     override fun actionPerformed(e: ActionEvent?) {
+        when(e?.actionCommand) {
+            MOVE_TITLE -> {
+                changeController(TitleController)
+            }
+        }
     }
 }

@@ -1,5 +1,6 @@
 package application.view
 
+import application.view.layout.RelativeLayout
 import domain.model.ApplicationEnvironment
 import java.awt.Color
 import javax.swing.JPanel

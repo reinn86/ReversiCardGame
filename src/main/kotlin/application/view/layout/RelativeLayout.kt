@@ -1,4 +1,4 @@
-package application.view
+package application.view.layout
 
 import domain.model.ApplicationEnvironment
 import java.awt.Component
@@ -19,7 +19,7 @@ class RelativeLayout : LayoutManager2{
         cons.width = (comp.width.toDouble() / (app.width.toDouble() / 9.0))
         cons.height = (comp.height.toDouble() / (app.height.toDouble() / 16.0))
 
-        if(constraints is  RelativeConstraints) {
+        if(constraints is RelativeConstraints) {
             setConstraints(comp,constraints)
         } else {
             setConstraints(comp,cons)

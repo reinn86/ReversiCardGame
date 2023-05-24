@@ -1,4 +1,4 @@
-package application.view.welcome
+package application.view.scene.welcome
 
 import application.controller.TitleController
 import application.view.Panel

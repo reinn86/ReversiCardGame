@@ -6,7 +6,7 @@ import java.awt.Dimension
 import javax.swing.JButton
 import javax.swing.JLabel
 
-class WelcomeScene : Panel(){
+class Welcome : Panel(){
     //相対配置
     //views
     private val settingButton = JButton()
