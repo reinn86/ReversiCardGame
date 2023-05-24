@@ -42,12 +42,8 @@ class RelativeLayout : LayoutManager2{
 
     override fun invalidateLayout(target: Container) {}
 
-    fun setConstraints(comp: Component, constraints: RelativeConstraints) {
+    private fun setConstraints(comp: Component, constraints: RelativeConstraints) {
         componentsMap[comp] = constraints.clone() as RelativeConstraints
-    }
-
-    fun getConstraints(comp: Component): RelativeConstraints {
-        return lookupConstraints(comp).clone() as RelativeConstraints
     }
 
     private fun lookupConstraints(comp: Component): RelativeConstraints {

@@ -1,4 +1,4 @@
-package application.view.title.welcom
+package application.view.scene.welcome
 
 import application.controller.TitleController
 import application.view.Panel
@@ -6,7 +6,7 @@ import java.awt.Dimension
 import javax.swing.JButton
 import javax.swing.JLabel
 
-class Welcome : Panel(){
+class WelcomeScene : Panel(){
     //相対配置
     //views
     private val settingButton = JButton()

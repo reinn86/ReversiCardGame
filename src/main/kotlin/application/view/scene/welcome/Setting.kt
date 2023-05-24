@@ -1,4 +1,4 @@
-package application.view.title.setting
+package application.view.welcome
 
 import application.controller.TitleController
 import application.view.Panel

@@ -1,4 +1,4 @@
-package application.view.main.home
+package application.view.main
 
 import application.view.Scene
 import javax.swing.JButton
