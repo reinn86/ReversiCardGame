@@ -19,7 +19,9 @@ class Home : Panel() {
         moveTitleButton.setLocation(vw(0.0),vh(0.0))
 
         //moveRankBattleButtonの設定
+        moveRankBattleButton.actionCommand = HomeController.MOVE_BATTLE
         moveRankBattleButton.size = Dimension(vw(90.0),vh(10.0))
+        moveRankBattleButton.text  = "バトルテスト"
         moveRankBattleButton.addActionListener(HomeController)
         moveRankBattleButton.setLocation(vw(5.0),vh(60.0))
 
