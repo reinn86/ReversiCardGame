@@ -13,14 +13,13 @@ object Window : JFrame() {
     fun createWindow() {
         defaultCloseOperation = WindowConstants.EXIT_ON_CLOSE
         isResizable = false
-        isVisible = true
         layout = null
         size = correctionSize(ApplicationEnvironment.appResolution.toDimension())
         title = "ReversiCardGame"
 
         setLocationRelativeTo(null)
+        isVisible = true
     }
-
 
     /*
      * 解像度を変更する関数
