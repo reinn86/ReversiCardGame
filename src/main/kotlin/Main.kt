@@ -1,4 +1,4 @@
-import domain.service.Reversi
+import domain.service.reversi.Reversi
 
 //fun main() {
 //    Window.createWindow()
