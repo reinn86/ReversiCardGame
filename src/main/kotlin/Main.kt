@@ -6,7 +6,14 @@ import domain.service.reversi.Reversi
 //}
 
 fun main() {
-    val r = Reversi()
+    val reversi = Reversi()
 
-    r.decideTurn()
+    val board = reversi.board
+
+    for (x in board.boardState) {
+        for (y in x){
+            print(y)
+        }
+        println()
+    }
 }
