@@ -1,15 +1,11 @@
 package domain.service.reversi
 
 class Reversi {
-    private var isMyTurn = false
-    private var troutX = 6
-    private var troutY = 6
-
-    val player1 = ""
-    val player2 = ""
-    val stone = ""
-
+    private val player1 = ""
+    private val player2 = ""
     val board  = Board(6,6)
+
+    private var isMyTurn = false
 
     fun decideTurn(): Boolean {
         val num = (Math.random() * 10).toInt()
