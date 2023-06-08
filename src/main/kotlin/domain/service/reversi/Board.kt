@@ -62,7 +62,7 @@ class Board(troutX: Int, troutY: Int) {
      *  TODO 座標を格納する配列は現在Xのサイズになっているため
      *   Yのサイズが長い時にも対応できるように変更する
      */
-    fun getRayCoordinate(x: Int, y:Int, a: Int, b: Int): Array<Array<Int?>> {
+    fun getRayCoordinate(x: Int, y:Int, a: Int, b: Int): ArrayList<Array<Int>> {
         var baseX = -100
         var baseY = -100
         var toX = -100
@@ -99,16 +99,12 @@ class Board(troutX: Int, troutY: Int) {
             }
         }
 
-        val coordinates  =  Array(6) {
-           arrayOfNulls<Int>(2)
-        }
-        println("x${baseX}to${toX}_y${baseY}to${toY}")
-        var i = 0
+        val coordinates  =  arrayListOf<Array<Int>>()
+
         while (baseX <= toX && baseY <= toY) {
-            coordinates[i] = arrayOf(baseX,baseY)
+            coordinates.add(arrayOf(baseX,baseY))
             baseX++
             baseY++
-            i++
         }
 
         return coordinates

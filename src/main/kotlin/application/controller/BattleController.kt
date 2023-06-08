@@ -6,6 +6,8 @@ import java.awt.event.ActionEvent
 
 object BattleController : Controller() {
 
+
+
     //scene
     override val scene: Panel = Battle()
 
