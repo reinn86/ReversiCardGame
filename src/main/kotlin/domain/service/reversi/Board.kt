@@ -1,12 +1,17 @@
 package domain.service.reversi
 
+import kotlin.math.PI
+import kotlin.math.cos
+import kotlin.math.round
+import kotlin.math.sin
+
 class Board(troutX: Int, troutY: Int) {
     constructor(trout:Int) : this(trout,trout)
     constructor() : this(6)
 
-    var troutX = 0
+    private var troutX = 0
     private var troutY = 0
-    var boardState = Array(troutX) {
+    private val boardState = Array(troutX) {
         IntArray(troutY)
     }
 
@@ -50,7 +55,7 @@ class Board(troutX: Int, troutY: Int) {
     /*
      * 石をリバーシの初期状態になるように配置する関数
      */
-    private fun firstPutStones() {
+    fun firstPutStones() {
         boardState[2][2] = STONE_WHITE
         boardState[2][3] = STONE_BLACK
         boardState[3][2] = STONE_BLACK
@@ -59,54 +64,89 @@ class Board(troutX: Int, troutY: Int) {
 
     /*
      * 指定された座標から指定された方向を見たときの存在する座標を返す関数
-     *  TODO 座標を格納する配列は現在Xのサイズになっているため
-     *   Yのサイズが長い時にも対応できるように変更する
+     * 指定された座標がボードにない場合サイズが0のリストを返します。
      */
-    fun getRayCoordinate(x: Int, y:Int, a: Int, b: Int): ArrayList<Array<Int>> {
-        var baseX = -100
-        var baseY = -100
-        var toX = -100
-        var toY = -100
-
-        //X軸でどこまで探索するかを設定
-        when (a) {
-            -1 -> {
-                baseX = 0
-                toX = x
-            }
-            0 -> {
-                baseX = x
-                toX = x
-            }
-            1 -> {
-                baseX = x
-                toX = troutX - 1
-            }
-        }
-        //Y軸でどこまで探索するかを設定
-        when (b) {
-            -1 -> {
-                baseY = 0
-                toY = y
-            }
-            0 -> {
-                baseY = y
-                toY = y
-            }
-            1 -> {
-                baseY = y
-                toY = troutY - 1
-            }
-        }
-
+     fun getRayCoordinate(x: Int, y:Int, a: Int, b: Int): ArrayList<Array<Int>> {
+        var locationX = x
+        var locationY = y
         val coordinates  =  arrayListOf<Array<Int>>()
 
-        while (baseX <= toX && baseY <= toY) {
-            coordinates.add(arrayOf(baseX,baseY))
-            baseX++
-            baseY++
+        //向きの値が異常な時からのリストを返して処理を終わらせる
+        if(troutX - 1 < x || x < 0) {
+            return coordinates
+        }
+        if (troutY - 1 < y || y < 0) {
+            return coordinates
+        }
+
+        while (locationX in 0 until troutX
+            && locationY in 0 until  troutY) {
+            coordinates.add(arrayOf(locationX,locationY))
+            locationX += a
+            locationY += b
         }
 
         return coordinates
+    }
+
+    fun getRayCoordinateVector8(x: Int, y: Int): Array<ArrayList<Array<Int>>> {
+        val coordinatesVector8 = Array(8) {
+            arrayListOf<Array<Int>>()
+        }
+
+        for (i in coordinatesVector8.indices){
+            val hVector = round(cos(i* PI/4)).toInt()
+            val vVector = round(sin(i* PI/4)).toInt()
+            val rayCoordinates =  getRayCoordinate(x,y,hVector,vVector)
+
+            coordinatesVector8[i] = rayCoordinates
+        }
+
+        return coordinatesVector8
+    }
+
+    /*
+     * 与えられた座標のリストの石の状態を返す関数
+     */
+    private fun getRayStoneStatus(coordinates: ArrayList<Array<Int>>): ArrayList<Int> {
+        val stoneStatuses  =  arrayListOf<Int>()
+        for (coordinate in coordinates) {
+            stoneStatuses.add(boardState[coordinate[0]][coordinate[1]])
+        }
+
+        return stoneStatuses
+    }
+
+    /*
+     * ひっくり返せるマスを配列で返す
+     */
+    fun findCanTurnOverStone(rayCoordinateVector: ArrayList<Array<Int>>, stoneColor: Int): ArrayList<Array<Int>> {
+        val coordinates = arrayListOf<Array<Int>>()
+
+        /*
+         * 石は何もないところだけにおかれるべきなので
+         * 最初の配列の０番目（初期位置）が空白でない場合に空の配列が返される
+         */
+        if (boardState[rayCoordinateVector[0][0]][rayCoordinateVector[0][1]] != STONE_EMPTY) {
+            return coordinates
+        }
+
+        val target = getRayStoneStatus(rayCoordinateVector).indexOf(stoneColor)
+        for(i in 1 until target) {
+            coordinates.add(arrayOf(rayCoordinateVector[i][0],rayCoordinateVector[i][1]))
+        }
+
+        return coordinates
+    }
+
+    fun findCanTurnOVerStoneVector8(rayCoordinateVector8: Array<ArrayList<Array<Int>>>, stoneColor: Int): Array<ArrayList<Array<Int>>> {
+        val coordinatesVector8 = Array(8) {
+            arrayListOf<Array<Int>>()
+        }
+
+        for (i in 0 until  8) {
+            coordinatesVector8[i] = (findCanTurnOverStone(rayCoordinateVector8[i],stoneColor))
+        }
+        return coordinatesVector8
     }
 }
