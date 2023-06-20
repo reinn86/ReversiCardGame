@@ -1,9 +1,8 @@
 package application.view.scene.battle
 
 import application.view.Panel
+import java.awt.Color
 import java.awt.Dimension
-import java.awt.Graphics
-import java.awt.Toolkit
 import javax.swing.ImageIcon
 import javax.swing.JButton
 
@@ -30,20 +29,30 @@ class Board : Panel() {
                 squares[y][x] = JButton()
 //                squares[y][x]!!.background = Color.GREEN
 
+                squares[y][x]!!.layout = null
+                squares[y][x]!!.isOpaque = true
+                squares[y][x]!!.isContentAreaFilled = true
                 squares[y][x]!!.size  = Dimension(squareWidth,squareHeight)
                 squares[y][x]!!.setLocation(localX,localY)
                 add(squares[y][x])
-
-
             }
         }
+
+        squares[2][2]!!.background = Color.WHITE
+        squares[2][3]!!.background = Color.BLACK
+        squares[3][2]!!.background = Color.BLACK
+        squares[3][3]!!.background = Color.WHITE
+        validate()
+        repaint()
     }
 
-    override fun paintComponent(g: Graphics) {
-        val toolkit = Toolkit.getDefaultToolkit()
-        val boardImage = toolkit.getImage("src/main/resources/images/battle_board.png")
 
-        super.paintComponent(g)
-        g.drawImage(boardImage,0,0,this)
-    }
+//    override fun paintComponent(g: Graphics) {
+//        super.paintComponent(g)
+//        val toolkit = Toolkit.getDefaultToolkit()
+//        val stoneWhiteImage = toolkit.getImage("src/main/resources/images/game_reversi_black.png")
+//        g.drawImage(stoneWhiteImage,squares[2][2]!!.location.x,squares[2][2]!!.location.y,squares[2][2])
+//        squares[2][2]!!.validate()
+//        squares[2][2]!!.repaint()
+//    }
 }

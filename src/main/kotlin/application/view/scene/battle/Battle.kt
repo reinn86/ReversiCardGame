@@ -21,23 +21,7 @@ class Battle : Panel() {
         boardPanel.size = Dimension(vw(80.0),vw(80.0))
         boardPanel.setLocation(vw(10.0),vh(15.0))
         boardPanel.isOpaque = true
-//        val squares = Array(6) {
-//            arrayOfNulls<JButton>(6)
-//        }
-//        for (x in 0 .. gridSize) {
-//            for (y in 0 .. gridSize) {
-//                val squareWidth = boardPanel.size.width /6
-//                val squareHeight = boardPanel.size.height /6
-//                val localX = boardPanel.size.width /6 * x
-//                val localY = boardPanel.size.width /6 * y
-//
-//                squares[y][x] = JButton()
-//                squares[y][x]!!.isContentAreaFilled = false
-//                squares[y][x]!!.size  = Dimension(squareWidth,squareHeight)
-//                squares[y][x]!!.setLocation(localX,localY)
-//                boardPanel.add(squares[y][x])
-//            }
-//        }
+
 
         //viewの配置
         add(boardPanel)

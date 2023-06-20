@@ -5,7 +5,7 @@ import application.view.scene.battle.Battle
 import java.awt.event.ActionEvent
 
 object BattleController : Controller() {
-
+    const val MOVE_SETTING = "PUT_STONE"
 
 
     //scene
@@ -14,4 +14,5 @@ object BattleController : Controller() {
     override fun actionPerformed(e: ActionEvent?) {
         TODO("Not yet implemented")
     }
+
 }

@@ -19,14 +19,16 @@ class Home : Panel() {
         moveTitleButton.setLocation(vw(0.0),vh(0.0))
 
         //moveRankBattleButtonの設定
-        moveRankBattleButton.actionCommand = HomeController.MOVE_BATTLE
+        moveRankBattleButton.actionCommand = HomeController.MOVE_RANK_BATTLE
         moveRankBattleButton.size = Dimension(vw(90.0),vh(10.0))
-        moveRankBattleButton.text  = "バトルテスト"
+        moveRankBattleButton.text  = "バトルテスト c"
         moveRankBattleButton.addActionListener(HomeController)
         moveRankBattleButton.setLocation(vw(5.0),vh(60.0))
 
         //moveCasualBattleButtonの設定
+        moveCasualBattleButton.actionCommand = HomeController.MOVE_BATTLE
         moveCasualBattleButton.size = Dimension(vw(90.0),vh(10.0))
+        moveCasualBattleButton.text  = "バトルテスト s"
         moveCasualBattleButton.addActionListener(HomeController)
         moveCasualBattleButton.setLocation(vw(5.0),vh(80.0))
 
