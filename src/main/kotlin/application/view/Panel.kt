@@ -11,6 +11,7 @@ open class Panel : JPanel(){
         size = ApplicationEnvironment.appResolution.toDimension()
         background = Color.CYAN
         layout = RelativeLayout()
+        isOpaque = true
         isVisible = true
     }
 

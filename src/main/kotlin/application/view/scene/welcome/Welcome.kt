@@ -3,6 +3,8 @@ package application.view.scene.welcome
 import application.controller.TitleController
 import application.view.Panel
 import java.awt.Dimension
+import java.awt.Graphics
+import java.awt.Toolkit
 import javax.swing.JButton
 import javax.swing.JLabel
 
@@ -14,9 +16,11 @@ class Welcome : Panel(){
     private val titleCallLabel = JLabel()
 
     init {
+        this.isOpaque = true
+
         //settingButtonの設定
         settingButton.actionCommand = TitleController.MOVE_SETTING
-        settingButton.size = Dimension(vw(15.0),vh(7.5))
+        settingButton.size = Dimension(vw(15.0),vw(15.0))
         settingButton.text = "設定"
         settingButton.addActionListener(TitleController)
         settingButton.setLocation(vw(84.0),vh(1.0))
@@ -39,5 +43,15 @@ class Welcome : Panel(){
         add(settingButton)
         add(titleCallLabel)
         add(startButton)
+    }
+
+    @Override
+    override fun paintComponent(g: Graphics) {
+        super.paintComponent(g)
+
+        val toolkit = Toolkit.getDefaultToolkit()
+        val sougenBG = toolkit.getImage("src/main/resources/images/bg_natural_sougen_restored.jpeg")
+
+        g.drawImage(sougenBG,0,0,this)
     }
 }

@@ -30,10 +30,10 @@ class Battle : Panel() {
     }
 
     override fun paintComponent(g: Graphics) {
+        super.paintComponent(g)
         val toolkit = Toolkit.getDefaultToolkit()
         val boardImage = toolkit.getImage("src/main/resources/images/battle_board.png")
 
-        super.paintComponent(g)
         g.drawImage(boardImage,0,0,boardPanel)
     }
 }

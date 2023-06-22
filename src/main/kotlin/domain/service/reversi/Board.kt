@@ -120,7 +120,7 @@ class Board(troutX: Int, troutY: Int) {
     /*
      * ひっくり返せるマスを配列で返す
      */
-    fun findCanTurnOverStone(rayCoordinateVector: ArrayList<Array<Int>>, stoneColor: Int): ArrayList<Array<Int>> {
+    private fun findCanTurnOverStone(rayCoordinateVector: ArrayList<Array<Int>>, stoneColor: Int): ArrayList<Array<Int>> {
         val coordinates = arrayListOf<Array<Int>>()
 
         /*
