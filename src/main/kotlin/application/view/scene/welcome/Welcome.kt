@@ -2,9 +2,13 @@ package application.view.scene.welcome
 
 import application.controller.TitleController
 import application.view.Panel
+import domain.model.ApplicationEnvironment
 import java.awt.Dimension
 import java.awt.Graphics
-import java.awt.Toolkit
+import java.awt.Image
+import java.io.File
+import javax.imageio.ImageIO
+import javax.swing.ImageIcon
 import javax.swing.JButton
 import javax.swing.JLabel
 
@@ -49,9 +53,15 @@ class Welcome : Panel(){
     override fun paintComponent(g: Graphics) {
         super.paintComponent(g)
 
-        val toolkit = Toolkit.getDefaultToolkit()
-        val sougenBG = toolkit.getImage("src/main/resources/images/bg_natural_sougen_restored.jpeg")
+//        val toolkit = Toolkit.getDefaultToolkit()
+//        val sougenBG = Image ("src/main/resources/images/bg_natural_sougen_restored.jpeg")
+//        g.drawImage(sougenBG,0,0,this)
 
-        g.drawImage(sougenBG,0,0,this)
+        val bufferedImage = ImageIO.read(File("src/main/resources/images/bg_natural_sougen_restored.jpeg"))
+        val image = bufferedImage.getScaledInstance(ApplicationEnvironment.appResolution.toDimension().width,ApplicationEnvironment.appResolution.toDimension().height,
+            Image.SCALE_DEFAULT)
+
+        val imageIcon = ImageIcon(image)
+        g.drawImage(image,0,0,this)
     }
 }
