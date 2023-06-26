@@ -12,9 +12,6 @@ class Battle : Panel() {
 
     private val boardPanel = Board()
 
-    private val gridSize  = 6 - 1
-
-
     init {
         //boardPanelの設定
         boardPanel.layout = null

@@ -5,6 +5,10 @@ import application.view.Panel
 import domain.model.Resolution
 import java.awt.Color
 import java.awt.Dimension
+import java.awt.Graphics
+import java.awt.Image
+import java.io.File
+import javax.imageio.ImageIO
 import javax.swing.JButton
 import javax.swing.JComboBox
 import javax.swing.JLabel
@@ -51,5 +55,16 @@ class Setting : Panel(){
 
     fun getNewResolution(): Resolution {
         return resolutions[resolutionSelectButton.selectedIndex]
+    }
+
+    @Override
+    override fun paintComponent(g: Graphics) {
+        super.paintComponent(g)
+
+        val bufferedImage = ImageIO.read(File("src/main/resources/images/title_bg.jpeg"))
+        val image = bufferedImage.getScaledInstance(vw(100.0),vh(100.0),Image.SCALE_DEFAULT)
+
+
+        g.drawImage(image,0,0,this)
     }
 }
