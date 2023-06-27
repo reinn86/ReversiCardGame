@@ -7,12 +7,24 @@ import java.awt.Graphics
 import java.awt.Image
 import java.io.File
 import javax.imageio.ImageIO
+import javax.swing.ImageIcon
 import javax.swing.JButton
 import javax.swing.JLabel
 
 class Welcome : Panel(){
-    //files
-    val bg = File("src/main/resources/images/title_bg.jpeg")
+    //filePaths
+    private val bgPath = "src/main/resources/images/title_bg.jpeg"
+    private val settingIconPath = "src/main/resources/images/icon_setting.png"
+
+    //images
+    private val bg = File(bgPath)
+    private val settingIcon = ImageIcon(settingIconPath)
+
+    //locations
+    private val settingButtonLocation = arrayOf(vw(84.0),vh(1.0))
+
+    //sizes
+    private val settingIconSize = Dimension(vw(15.0),vw(15.0))
 
     //views
     private val settingButton = JButton()
@@ -22,8 +34,15 @@ class Welcome : Panel(){
     init {
         //settingButtonの設定
         settingButton.actionCommand = TitleController.MOVE_SETTING
+        settingButton.horizontalTextPosition = JLabel.CENTER
+        settingButton.icon = ImageIcon(settingIcon.image.getScaledInstance(
+            settingIconSize.width,
+            settingIconSize.height,
+            Image.SCALE_DEFAULT)
+        )
+        settingButton.isContentAreaFilled = false
+//        settingButton.border = null
         settingButton.size = Dimension(vw(15.0),vw(15.0))
-        settingButton.text = "設定"
         settingButton.addActionListener(TitleController)
         settingButton.setLocation(vw(84.0),vh(1.0))
 
