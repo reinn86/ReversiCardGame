@@ -80,5 +80,6 @@ class RelativeLayout : LayoutManager2{
             val height = (parent.size.height * (cons.height / 16.0)).toInt()
             comp.setBounds(x,y,width,height)
         }
+        parent.repaint()
     }
 }
