@@ -1,5 +1,6 @@
 package application.view.scene.battle
 
+import application.controller.BattleController
 import application.view.Panel
 import java.awt.Color
 import java.awt.Dimension
@@ -33,6 +34,7 @@ class Board : Panel() {
                 squares[y][x]!!.isOpaque = true
                 squares[y][x]!!.isContentAreaFilled = true
                 squares[y][x]!!.size  = Dimension(squareWidth,squareHeight)
+                squares[y][x]!!.addActionListener(BattleController)
                 squares[y][x]!!.setLocation(localX,localY)
                 add(squares[y][x])
             }
@@ -45,14 +47,4 @@ class Board : Panel() {
         validate()
         repaint()
     }
-
-
-//    override fun paintComponent(g: Graphics) {
-//        super.paintComponent(g)
-//        val toolkit = Toolkit.getDefaultToolkit()
-//        val stoneWhiteImage = toolkit.getImage("src/main/resources/images/game_reversi_black.png")
-//        g.drawImage(stoneWhiteImage,squares[2][2]!!.location.x,squares[2][2]!!.location.y,squares[2][2])
-//        squares[2][2]!!.validate()
-//        squares[2][2]!!.repaint()
-//    }
 }

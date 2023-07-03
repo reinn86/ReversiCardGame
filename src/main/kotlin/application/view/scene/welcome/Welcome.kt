@@ -3,6 +3,7 @@ package application.view.scene.welcome
 import application.controller.TitleController
 import application.view.Panel
 import java.awt.Dimension
+import java.awt.Font
 import java.awt.Graphics
 import java.awt.Image
 import java.io.File
@@ -16,42 +17,40 @@ class Welcome : Panel(){
     private val bgPath = "src/main/resources/images/title_bg.jpeg"
     private val settingIconPath = "src/main/resources/images/icon_setting.png"
 
-    //images
-     private val settingIcon = ImageIcon(settingIconPath)
-
     //locations
-    private var settingButtonLocationX = vw(84.0)
-    private var settingButtonLocationY = vw(1.0)
-    private val startButtonLocationX = vw(0.0)
-    private val startButtonLocationY = vh(0.0)
+    private val startButtonX = vw(0.0)
+    private val startButtonY = vh(0.0)
+    private val startLabelX = vw(10.0)
+    private val startLabelY = vh(70.0)
     private val titleCallLabelX = vw(10.0)
     private val titleCallLabelY = vh(15.0)
+    private val settingButtonX = vw(84.0)
+    private val settingButtonY = vw(1.0)
 
     //sizes
-    private val settingIconSize = Dimension(vw(15.0),vw(15.0))
     private val settingButtonSize = Dimension(vw(15.0),vw(15.0))
+    private val startLabelSize = Dimension(vw(80.0),vh(10.0))
     private val startButtonSize = Dimension(vw(100.0),vh(100.0))
     private val titleCallLabelSize = Dimension(vw(80.0),vh(20.0))
 
-    //views
+    //texts
+    private val startLabelText = "Click to start"
+    private val titleCallLabelText = "Reversi Card Game"
+
+    //components
     private val settingButton = JButton()
     private val startButton = JButton()
+    private val startLabel = JLabel()
     private val titleCallLabel = JLabel()
 
     init {
         //settingButtonの設定
         settingButton.actionCommand = TitleController.MOVE_SETTING
         settingButton.horizontalTextPosition = JLabel.CENTER
-        settingButton.icon = ImageIcon(settingIcon.image.getScaledInstance(
-            settingIconSize.width,
-            settingIconSize.height,
-            Image.SCALE_DEFAULT)
-        )
         settingButton.isContentAreaFilled = false
-//        settingButton.border = null
         settingButton.size = settingButtonSize
         settingButton.addActionListener(TitleController)
-        settingButton.setLocation(settingButtonLocationX,settingButtonLocationY)
+        settingButton.setLocation(settingButtonX,settingButtonY)
 
         //startButtonの設定
         startButton.actionCommand = TitleController.MOVE_HOME
@@ -59,35 +58,60 @@ class Welcome : Panel(){
         startButton.isContentAreaFilled = false
         startButton.size = startButtonSize
         startButton.addActionListener(TitleController)
-        startButton.setLocation(startButtonLocationX,startButtonLocationY)
+        startButton.setLocation(startButtonX,startButtonY)
+
+        //startLabelの設定
+        startLabel.isOpaque = false
+        startLabel.size = startLabelSize
+        startLabel.text = startLabelText
+        startLabel.setLocation(startLabelX,startLabelY)
 
         //titleCallLabelの設定
-        titleCallLabel.isOpaque = true
+        titleCallLabel.isOpaque = false
         titleCallLabel.size = titleCallLabelSize
-        titleCallLabel.text = "Reversi Card Game"
+        titleCallLabel.text = titleCallLabelText
         titleCallLabel.setLocation(titleCallLabelX,titleCallLabelY)
 
-        //viewの配置
-        add(settingButton)
+        //componentの配置
+        //ボタン以外のcomponent
+        add(startLabel)
         add(titleCallLabel)
+        //ボタンなどのcomponent
+        add(settingButton)
         add(startButton)
-
-        repaint()
     }
 
     @Override
     override fun paintComponent(g: Graphics) {
         super.paintComponent(g)
-        val bgImageFile = File(bgPath)
-        val settingImageFile = File(settingIconPath)
+        //fonts
+        val titleFont = Font("Serif",Font.PLAIN,vw(10.0))
 
-        val bgBufferedImage = ImageIO.read(bgImageFile)
-        val settingBufferedImage = ImageIO.read(settingImageFile)
-        val bgImage = bgBufferedImage.getScaledInstance(vw(100.0),vh(100.0),Image.SCALE_DEFAULT)
-        val settingImage = settingBufferedImage.getScaledInstance(settingIconSize.width,settingIconSize.height,Image.SCALE_DEFAULT)
+        //locations
+        val bgLocationX = 0
+        val bgLocationY = 0
 
-        g.drawImage(bgImage,0,0,this)
-        g.drawImage(settingImage,settingButtonLocationX,settingButtonLocationY,this)
-        repaint()
+        //sizes
+        val bgImageWidth = vw(100.0)
+        val bgImageHeight = vh(100.0)
+        val settingIconWidth = vw(13.5)
+        val settingIconHeight = vw(13.5)
+
+        //images
+        val bgImage = ImageIO.read(File(bgPath)).getScaledInstance(
+            bgImageWidth,
+            bgImageHeight,
+            Image.SCALE_DEFAULT
+        )
+        val settingIcon = ImageIO.read(File(settingIconPath)).getScaledInstance(
+            settingIconWidth,
+            settingIconHeight,
+            Image.SCALE_DEFAULT
+        )
+
+        settingButton.icon = ImageIcon(settingIcon)
+        titleCallLabel.font = titleFont
+
+        g.drawImage(bgImage,bgLocationX,bgLocationY,this)
     }
 }

@@ -12,7 +12,7 @@ object BattleController : Controller() {
     override val scene: Panel = Battle()
 
     override fun actionPerformed(e: ActionEvent?) {
-        TODO("Not yet implemented")
+        println("test")
     }
 
 }
