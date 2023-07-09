@@ -15,9 +15,9 @@ class Board(troutX: Int, troutY: Int) {
         IntArray(troutY)
     }
 
-    private val STONE_EMPTY = 0
-    private val STONE_BLACK = 1
-    private val STONE_WHITE = 2
+    val STONE_EMPTY = 0
+    val STONE_BLACK = 1
+    val STONE_WHITE = 2
 
     init {
         this.troutX = troutX
@@ -55,7 +55,7 @@ class Board(troutX: Int, troutY: Int) {
     /*
      * 石をリバーシの初期状態になるように配置する関数
      */
-    fun firstPutStones() {
+    private fun firstPutStones() {
         boardState[2][2] = STONE_WHITE
         boardState[2][3] = STONE_BLACK
         boardState[3][2] = STONE_BLACK

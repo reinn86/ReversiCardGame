@@ -4,18 +4,18 @@ import java.io.DataInputStream
 import java.io.IOException
 import java.net.ServerSocket
 
-class Server {
-    private val port = 10000
+class Server(port :Int) {
     private val serverSocket = ServerSocket(port)
     private val socket = serverSocket.accept()
     private val dataIn = DataInputStream(socket.getInputStream())
 
-    init {
+    fun readUTF(): String {
         try {
-            println(dataIn.readUTF())
+            return dataIn.readUTF()
         } catch (e: IOException) {
             e.printStackTrace()
         }
+        return ""
     }
 
     fun close() {

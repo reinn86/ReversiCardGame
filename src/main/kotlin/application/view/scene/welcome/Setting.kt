@@ -26,6 +26,7 @@ class Setting : Panel(){
     private val prevButtonSize = Dimension(vw(11.1),vw(11.1))
     private val resolutionLabelSize = Dimension(vw(45.0),vh(10.0))
     private val resolutionComboSize = Dimension(vw(45.0),vh(10.0))
+
     //components
     private val prevButton = JButton()
     private val resolutionLabel = JLabel()

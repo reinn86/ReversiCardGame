@@ -1,18 +1,18 @@
 package application.controller
 
 import application.view.scene.main.Home
-import domain.model.network.Client
-import domain.model.network.Server
+import application.view.scene.main.MatchMake
 import java.awt.event.ActionEvent
 
 object HomeController : Controller(){
     //このコントローラーで受け取る処理命令
     const val MOVE_TITLE = "MOVE_TITLE"
-    const val MOVE_BATTLE = "MOVE_BATTLE"
-    const val MOVE_RANK_BATTLE = "MOVE_RANK_BATTLE"
+    const val MOVE_TEST_BATTLE_S = "MOVE_BATTLE"
+    const val MOVE_TEST_BATTLE_C = "MOVE_RANK_BATTLE"
 
-    //views
+    //scene
     override val scene = Home()
+    private val matchMake = MatchMake()
 
     @Override
     override fun actionPerformed(e: ActionEvent?) {
@@ -20,18 +20,13 @@ object HomeController : Controller(){
             MOVE_TITLE -> {
                 changeController(TitleController)
             }
-            MOVE_BATTLE -> {
+            MOVE_TEST_BATTLE_S -> {
                 changeController(BattleController)
-                val thread = Thread() {
-                    run {
-                        val s = Server()
-                    }
-                }
-
+                BattleController.connectServer()
             }
-            MOVE_RANK_BATTLE -> {
+            MOVE_TEST_BATTLE_C -> {
                 changeController(BattleController)
-                val c = Client()
+                BattleController.connectClient()
             }
         }
     }

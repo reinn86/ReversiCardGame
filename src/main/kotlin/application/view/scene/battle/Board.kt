@@ -4,47 +4,56 @@ import application.controller.BattleController
 import application.view.Panel
 import java.awt.Color
 import java.awt.Dimension
+import java.awt.event.ActionEvent
+import java.awt.event.ActionListener
 import javax.swing.ImageIcon
 import javax.swing.JButton
 
-class Board : Panel() {
+class Board : Panel(),ActionListener {
     private val blackStoneImage = ImageIcon("src/main/resources/images/game_reversi_black.png")
     private val gridSize  = 6 - 1
-    private val squares = Array(6) {
+    val squares = Array(6) {
         arrayOfNulls<JButton>(6)
     }
+    private var clickedButton = ""
 
     init {
         layout = null
         size = Dimension(vw(80.0),vw(80.0))
         setLocation(vw(10.0),vh(15.0))
         isOpaque = true
-
-        for (x in 0 .. gridSize) {
-            for (y in 0 .. gridSize) {
+        for (y in 0 .. gridSize) {
+            for (x in 0 .. gridSize) {
                 val squareWidth = size.width /6
                 val squareHeight = size.height /6
                 val localX = size.width /6 * x
                 val localY = size.width /6 * y
 
-                squares[y][x] = JButton()
-//                squares[y][x]!!.background = Color.GREEN
-
-                squares[y][x]!!.layout = null
-                squares[y][x]!!.isOpaque = true
-                squares[y][x]!!.isContentAreaFilled = true
-                squares[y][x]!!.size  = Dimension(squareWidth,squareHeight)
-                squares[y][x]!!.addActionListener(BattleController)
-                squares[y][x]!!.setLocation(localX,localY)
-                add(squares[y][x])
+                squares[x][y] = JButton()
+                squares[x][y]!!.layout = null
+                squares[x][y]!!.isOpaque = true
+                squares[x][y]!!.isContentAreaFilled = true
+                squares[x][y]!!.actionCommand = BattleController.PUT_STONE + "_${x}_${y}"
+                squares[x][y]!!.size  = Dimension(squareWidth,squareHeight)
+                squares[x][y]!!.addActionListener(BattleController)
+                squares[x][y]!!.addActionListener(this)
+                squares[x][y]!!.setLocation(localX,localY)
+                add(squares[x][y])
             }
         }
-
         squares[2][2]!!.background = Color.WHITE
         squares[2][3]!!.background = Color.BLACK
         squares[3][2]!!.background = Color.BLACK
         squares[3][3]!!.background = Color.WHITE
-        validate()
-        repaint()
+
+    }
+
+    override fun actionPerformed(e: ActionEvent) {
+        clickedButton = e.actionCommand
+
+    }
+
+    fun getClickedButton(): String {
+        return clickedButton
     }
 }

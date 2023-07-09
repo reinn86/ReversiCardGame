@@ -6,31 +6,48 @@ import java.awt.Dimension
 import javax.swing.JButton
 
 class Home : Panel() {
-    //views
+    //locations
+    private val moveTitleButtonX = vw(0.0)
+    private val moveTitleButtonY = vh(0.0)
+    private val moveRankBattleButtonX = vw(5.0)
+    private val moveRankBattleButtonY = vh(60.0)
+    private val moveCasualBattleButtonX = vw(5.0)
+    private val moveCasualBattleButtonY = vw(80.0)
+
+    //sizes
+    private val moveTitleButtonSize = Dimension(vw(10.0),vw(10.0))
+    private val moveRankBattleButtonSize = Dimension(vw(90.0),vh(10.0))
+    private val moveCasualBattleButtonSize = Dimension(vw(90.0),vh(10.0))
+
+    //components
     private val moveTitleButton = JButton()
     private val moveCasualBattleButton = JButton()
     private val moveRankBattleButton = JButton()
 
+    //texts
+    private val moveRankBattleButtonText = "バトルテスト c"
+    private val moveCasualBattleButtonText = "バトルテスト s"
+
     init {
-//        //moveTitleButtonの設定
+        //moveTitleButtonの設定
         moveTitleButton.actionCommand = HomeController.MOVE_TITLE
-        moveTitleButton.size = Dimension(vw(10.0),vw(10.0))
+        moveTitleButton.size = moveTitleButtonSize
         moveTitleButton.addActionListener(HomeController)
-        moveTitleButton.setLocation(vw(0.0),vh(0.0))
+        moveTitleButton.setLocation(moveTitleButtonX,moveTitleButtonY)
 
         //moveRankBattleButtonの設定
-        moveRankBattleButton.actionCommand = HomeController.MOVE_RANK_BATTLE
-        moveRankBattleButton.size = Dimension(vw(90.0),vh(10.0))
-        moveRankBattleButton.text  = "バトルテスト c"
+        moveRankBattleButton.actionCommand = HomeController.MOVE_TEST_BATTLE_C
+        moveRankBattleButton.size = moveRankBattleButtonSize
+        moveRankBattleButton.text  = moveRankBattleButtonText
         moveRankBattleButton.addActionListener(HomeController)
-        moveRankBattleButton.setLocation(vw(5.0),vh(60.0))
+        moveRankBattleButton.setLocation(moveRankBattleButtonX,moveRankBattleButtonY)
 
         //moveCasualBattleButtonの設定
-        moveCasualBattleButton.actionCommand = HomeController.MOVE_BATTLE
-        moveCasualBattleButton.size = Dimension(vw(90.0),vh(10.0))
-        moveCasualBattleButton.text  = "バトルテスト s"
+        moveCasualBattleButton.actionCommand = HomeController.MOVE_TEST_BATTLE_S
+        moveCasualBattleButton.size = moveCasualBattleButtonSize
+        moveCasualBattleButton.text  = moveCasualBattleButtonText
         moveCasualBattleButton.addActionListener(HomeController)
-        moveCasualBattleButton.setLocation(vw(5.0),vh(80.0))
+        moveCasualBattleButton.setLocation(moveCasualBattleButtonX,moveCasualBattleButtonY)
 
         //viewの配置
         add(moveTitleButton)
