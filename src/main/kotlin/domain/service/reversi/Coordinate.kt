@@ -1,10 +1,7 @@
 package domain.service.reversi
 
 class Coordinate(x: Int, y: Int) {
-    private val
-
-
-            coordinate = arrayListOf(x,y)
+    private val coordinate = arrayListOf(x,y)
 
     init {
         setCoordinateX(x)
@@ -25,5 +22,9 @@ class Coordinate(x: Int, y: Int) {
 
     fun getY(): Int {
         return coordinate[1]
+    }
+    fun matches(coordinate: Coordinate): Boolean{
+        return (this.getX() == coordinate.getX()
+                && this.getY() == coordinate.getY())
     }
 }

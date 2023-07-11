@@ -1,21 +1,22 @@
 package application.view.scene.battle
 
-import application.controller.BattleController
 import application.view.Panel
 import java.awt.Dimension
-import javax.swing.JButton
+import javax.swing.JLabel
 
 class Battle : Panel() {
     //sizes
     private val boardPanelSize = Dimension(vw(80.0),vw(80.0))
-
+    private val resultLabelSize = Dimension(vw(80.0),vh(10.0))
     //locations
     private val boardPanelX = vw(10.0)
     private val boardPanelY = vh(15.0)
+    private val resultLabelSizeX = vw(10.0)
+    private val resultLabelSizeY = vw(60.0)
 
     //components
     val boardPanel = Board()
-    private val putStoneButton = JButton()
+    private val resultLabel = JLabel()
 
     init {
         //boardPanelの設定
@@ -23,12 +24,9 @@ class Battle : Panel() {
         boardPanel.size = boardPanelSize
         boardPanel.setLocation(boardPanelX,boardPanelY)
 
-        //putStoneButton
-        putStoneButton.actionCommand = BattleController.PUT_STONE
-        putStoneButton.addActionListener(BattleController)
         //viewの配置
         add(boardPanel)
-        add(putStoneButton)
+        add(resultLabel)
     }
 
     fun getClickedSquares(): String {

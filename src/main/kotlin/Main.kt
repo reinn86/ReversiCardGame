@@ -1,7 +1,9 @@
-import application.controller.TitleController
+
+import application.controller.HomeController
 import application.view.Window
 
 fun main() {
     Window.createWindow()
-    TitleController.start()
+//    TitleController.start()
+    HomeController.start()
 }

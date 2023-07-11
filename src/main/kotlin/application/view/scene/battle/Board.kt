@@ -33,12 +33,31 @@ class Board : Panel(),ActionListener {
                 squares[x][y]!!.layout = null
                 squares[x][y]!!.isOpaque = true
                 squares[x][y]!!.isContentAreaFilled = true
+                squares[x][y]!!.background = null
                 squares[x][y]!!.actionCommand = BattleController.PUT_STONE + "_${x}_${y}"
                 squares[x][y]!!.size  = Dimension(squareWidth,squareHeight)
                 squares[x][y]!!.addActionListener(BattleController)
                 squares[x][y]!!.addActionListener(this)
                 squares[x][y]!!.setLocation(localX,localY)
                 add(squares[x][y])
+            }
+        }
+        squares[2][2]!!.background = Color.WHITE
+        squares[2][3]!!.background = Color.BLACK
+        squares[3][2]!!.background = Color.BLACK
+        squares[3][3]!!.background = Color.WHITE
+
+    }
+
+    fun initBoard() {
+        for (y in 0 .. gridSize) {
+            for (x in 0 .. gridSize) {
+                val squareWidth = size.width /6
+                val squareHeight = size.height /6
+                val localX = size.width /6 * x
+                val localY = size.width /6 * y
+
+                squares[x][y]!!.background = null
             }
         }
         squares[2][2]!!.background = Color.WHITE
