@@ -121,6 +121,7 @@ object BattleController : Controller() {
      * 自分の意志の色を決めたあと、敵の色の
      */
     private fun decideStoneColor() {
+        reversi.decideMyStoneColor()
         val rivalStoneColor = stone.getReverseColor(reversi.myStoneColor)
 
         if(reversi.myStoneColor == reversi.board.STONE_WHITE) {
