@@ -155,6 +155,7 @@ class Board(troutX: Int, troutY: Int) {
                         coordinates.add(0,Coordinate(rayCoordinates[0].getX(),rayCoordinates[0].getY()))
                         return coordinates
                     }
+                    return arrayListOf()
                 }
             }
         }

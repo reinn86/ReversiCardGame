@@ -104,6 +104,11 @@ object BattleController : Controller() {
                         server.close()
                         client.close()
                     }
+                    else {
+//                        commandPutStone(command)
+//                        client.sendString(PUT_EMPTY_STONE)
+                        changeButtonClickable(true)
+                    }
                 }
                 else if(command == GAME_END) {
                     changeController(HomeController)

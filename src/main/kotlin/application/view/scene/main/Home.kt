@@ -3,6 +3,10 @@ package application.view.scene.main
 import application.controller.HomeController
 import application.view.Panel
 import java.awt.Dimension
+import java.awt.Graphics
+import java.awt.Image
+import java.io.File
+import javax.imageio.ImageIO
 import javax.swing.JButton
 
 class Home : Panel() {
@@ -27,6 +31,25 @@ class Home : Panel() {
     //texts
     private val moveRankBattleButtonText = "バトルテスト c"
     private val moveCasualBattleButtonText = "バトルテスト s"
+    private val bgPath = "src/main/resources/images/title_bg.jpeg"
+    @Override
+    override fun paintComponent(g: Graphics) {
+        //locations
+        val bgLocationX = 0
+        val bgLocationY = 0
+
+        //sizes
+        val bgImageWidth = vw(100.0)
+        val bgImageHeight = vh(100.0)
+
+        //images
+        val bgImage = ImageIO.read(File(bgPath)).getScaledInstance(
+            bgImageWidth,
+            bgImageHeight,
+            Image.SCALE_DEFAULT
+        )
+        g.drawImage(bgImage,bgLocationX,bgLocationY,this)
+    }
 
     init {
         //moveTitleButtonの設定

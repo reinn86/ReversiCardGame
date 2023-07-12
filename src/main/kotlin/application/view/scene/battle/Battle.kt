@@ -2,6 +2,10 @@ package application.view.scene.battle
 
 import application.view.Panel
 import java.awt.Dimension
+import java.awt.Graphics
+import java.awt.Image
+import java.io.File
+import javax.imageio.ImageIO
 import javax.swing.JLabel
 
 class Battle : Panel() {
@@ -17,7 +21,25 @@ class Battle : Panel() {
     //components
     val boardPanel = Board()
     private val resultLabel = JLabel()
+    private val bgPath = "src/main/resources/images/title_bg.jpeg"
+    @Override
+    override fun paintComponent(g: Graphics) {
+        //locations
+        val bgLocationX = 0
+        val bgLocationY = 0
 
+        //sizes
+        val bgImageWidth = vw(100.0)
+        val bgImageHeight = vh(100.0)
+
+        //images
+        val bgImage = ImageIO.read(File(bgPath)).getScaledInstance(
+            bgImageWidth,
+            bgImageHeight,
+            Image.SCALE_DEFAULT
+        )
+        g.drawImage(bgImage,bgLocationX,bgLocationY,this)
+    }
     init {
         //boardPanelの設定
         boardPanel.isOpaque = true
