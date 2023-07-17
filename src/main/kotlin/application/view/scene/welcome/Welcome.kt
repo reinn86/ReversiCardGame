@@ -1,6 +1,6 @@
 package application.view.scene.welcome
 
-import application.controller.TitleController
+import application.controller.TitleSceneController
 import application.view.Panel
 import java.awt.Dimension
 import java.awt.Font
@@ -45,19 +45,19 @@ class Welcome : Panel(){
 
     init {
         //settingButtonの設定
-        settingButton.actionCommand = TitleController.MOVE_SETTING
+        settingButton.actionCommand = TitleSceneController.MOVE_SETTING
         settingButton.horizontalTextPosition = JLabel.CENTER
         settingButton.isContentAreaFilled = false
         settingButton.size = settingButtonSize
-        settingButton.addActionListener(TitleController)
+        settingButton.addActionListener(TitleSceneController)
         settingButton.setLocation(settingButtonX,settingButtonY)
 
         //startButtonの設定
-        startButton.actionCommand = TitleController.MOVE_HOME
+        startButton.actionCommand = TitleSceneController.MOVE_HOME
         startButton.border = null
         startButton.isContentAreaFilled = false
         startButton.size = startButtonSize
-        startButton.addActionListener(TitleController)
+        startButton.addActionListener(TitleSceneController)
         startButton.setLocation(startButtonX,startButtonY)
 
         //startLabelの設定

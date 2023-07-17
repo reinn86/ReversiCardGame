@@ -6,7 +6,7 @@ import application.view.Window.repaint
 import application.view.Window.validate
 import java.awt.event.ActionListener
 
-abstract class Controller : ActionListener{
+abstract class SceneController : ActionListener{
     abstract val scene: Panel
 
     fun start() {
@@ -15,7 +15,7 @@ abstract class Controller : ActionListener{
         repaint()
     }
 
-    fun changeController(controller: Controller) {
-        controller.start()
+    fun changeController(sceneController: SceneController) {
+        sceneController.start()
     }
 }

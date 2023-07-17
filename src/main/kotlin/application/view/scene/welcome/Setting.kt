@@ -1,6 +1,6 @@
 package application.view.scene.welcome
 
-import application.controller.TitleController
+import application.controller.TitleSceneController
 import application.view.Panel
 import domain.model.Resolution
 import java.awt.*
@@ -41,10 +41,10 @@ class Setting : Panel(){
 
     init {
         //prevButtonの設定
-        prevButton.actionCommand = TitleController.MOVE_TITLE
+        prevButton.actionCommand = TitleSceneController.MOVE_TITLE
         prevButton.size = prevButtonSize
         prevButton.text = prevButtonText
-        prevButton.addActionListener(TitleController)
+        prevButton.addActionListener(TitleSceneController)
         prevButton.setLocation(prevButtonX,prevButtonY)
 
         //resolutionLabelの設定
@@ -55,14 +55,14 @@ class Setting : Panel(){
         resolutionLabel.setLocation(resolutionLabelX,resolutionLabelY)
 
         //resolutionComboの設定
-        resolutionCombo.actionCommand = TitleController.CHANGE_RESOLUTION
+        resolutionCombo.actionCommand = TitleSceneController.CHANGE_RESOLUTION
         resolutionCombo.size = resolutionComboSize
         for (i in resolutions) {
             val dimension = i.toDimension()
             val displayName = "${dimension.width} × ${dimension.height}"
             resolutionCombo.addItem(displayName)
         }
-        resolutionCombo.addActionListener(TitleController)
+        resolutionCombo.addActionListener(TitleSceneController)
         resolutionCombo.setLocation(resolutionComboX,resolutionComboY)
 
         //viewの配置

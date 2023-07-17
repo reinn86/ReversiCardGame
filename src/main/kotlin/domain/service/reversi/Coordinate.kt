@@ -1,30 +1,16 @@
 package domain.service.reversi
 
 class Coordinate(x: Int, y: Int) {
-    private val coordinate = arrayListOf(x,y)
+    var x = x
+        private set
+    var y  = y
+        private set
 
-    init {
-        setCoordinateX(x)
-        setCoordinateY(y)
-    }
-
-    private fun setCoordinateX(x: Int) {
-        coordinate[0] = x
-    }
-
-    private fun setCoordinateY(y: Int) {
-        coordinate[1] = y
-    }
-    
-    fun getX(): Int {
-        return coordinate[0]
-    }
-
-    fun getY(): Int {
-        return coordinate[1]
-    }
+    /*
+     * 引数の座標とこのオブジェクトの座標を比較する関数
+     * 同じ座標ならtrue、違うならfalseを返します
+     */
     fun matches(coordinate: Coordinate): Boolean{
-        return (this.getX() == coordinate.getX()
-                && this.getY() == coordinate.getY())
+        return (x == coordinate.x && y == coordinate.y)
     }
 }

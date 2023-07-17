@@ -1,6 +1,7 @@
 package application.view.scene.battle
 
 import application.view.Panel
+import domain.service.reversi.Coordinate
 import java.awt.Dimension
 import java.awt.Graphics
 import java.awt.Image
@@ -51,7 +52,7 @@ class Battle : Panel() {
         add(resultLabel)
     }
 
-    fun getClickedSquares(): String {
+    fun getClickedBoardCoordinate(): Coordinate {
         return boardPanel.getClickedButton()
     }
 }

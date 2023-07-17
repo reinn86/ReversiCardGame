@@ -7,7 +7,7 @@ import domain.model.ApplicationEnvironment
 import domain.service.OAuthCertifiable
 import java.awt.event.ActionEvent
 
-object TitleController : Controller(),OAuthCertifiable {
+object TitleSceneController : SceneController(),OAuthCertifiable {
     //このコントローラーで受け取る処理命令
     const val MOVE_SETTING = "OPEN_SETTING"
     const val MOVE_HOME = "MOVE_HOME"
@@ -26,7 +26,7 @@ object TitleController : Controller(),OAuthCertifiable {
         when(e?.actionCommand) {
             MOVE_HOME -> {
 //                authenticateGoogle()
-                changeController(HomeController)
+                changeController(HomeSceneController)
             }
             MOVE_SETTING -> {
                 Window.contentPane = setting

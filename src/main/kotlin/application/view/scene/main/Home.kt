@@ -1,6 +1,6 @@
 package application.view.scene.main
 
-import application.controller.HomeController
+import application.controller.HomeSceneController
 import application.view.Panel
 import java.awt.Dimension
 import java.awt.Graphics
@@ -29,8 +29,8 @@ class Home : Panel() {
     private val moveRankBattleButton = JButton()
 
     //texts
+    private val moveCasualBattleButtonText = "バトルテスト h"
     private val moveRankBattleButtonText = "バトルテスト c"
-    private val moveCasualBattleButtonText = "バトルテスト s"
     private val bgPath = "src/main/resources/images/title_bg.jpeg"
     @Override
     override fun paintComponent(g: Graphics) {
@@ -53,23 +53,23 @@ class Home : Panel() {
 
     init {
         //moveTitleButtonの設定
-        moveTitleButton.actionCommand = HomeController.MOVE_TITLE
+        moveTitleButton.actionCommand = HomeSceneController.MOVE_TITLE
         moveTitleButton.size = moveTitleButtonSize
-        moveTitleButton.addActionListener(HomeController)
+        moveTitleButton.addActionListener(HomeSceneController)
         moveTitleButton.setLocation(moveTitleButtonX,moveTitleButtonY)
 
         //moveRankBattleButtonの設定
-        moveRankBattleButton.actionCommand = HomeController.MOVE_TEST_BATTLE_C
+        moveRankBattleButton.actionCommand = HomeSceneController.MOVE_TEST_BATTLE_C
         moveRankBattleButton.size = moveRankBattleButtonSize
         moveRankBattleButton.text  = moveRankBattleButtonText
-        moveRankBattleButton.addActionListener(HomeController)
+        moveRankBattleButton.addActionListener(HomeSceneController)
         moveRankBattleButton.setLocation(moveRankBattleButtonX,moveRankBattleButtonY)
 
         //moveCasualBattleButtonの設定
-        moveCasualBattleButton.actionCommand = HomeController.MOVE_TEST_BATTLE_S
+        moveCasualBattleButton.actionCommand = HomeSceneController.MOVE_TEST_BATTLE_S
         moveCasualBattleButton.size = moveCasualBattleButtonSize
         moveCasualBattleButton.text  = moveCasualBattleButtonText
-        moveCasualBattleButton.addActionListener(HomeController)
+        moveCasualBattleButton.addActionListener(HomeSceneController)
         moveCasualBattleButton.setLocation(moveCasualBattleButtonX,moveCasualBattleButtonY)
 
         //viewの配置
