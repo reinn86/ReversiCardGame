@@ -19,4 +19,19 @@ class Reversi {
     fun putStone(x: Int, y: Int, state: Int) {
         board.changeState(x,y,state)
     }
+
+    fun getRivalStoneColor(): Int {
+        if(myStoneColor == StoneStatus.BLACK) {
+            return StoneStatus.WHITE
+        } else if (myStoneColor == StoneStatus.WHITE) {
+            return StoneStatus.BLACK
+        } else {
+            return StoneStatus.EMPTY
+        }
+
+    }
+
+    fun searchPlaceableCoordinate(): ArrayList<Coordinate> {
+        return board.searchPlaceableCoordinate(myStoneColor)
+    }
 }

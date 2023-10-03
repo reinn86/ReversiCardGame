@@ -3,6 +3,7 @@ package application.controller
 import application.view.scene.main.Home
 import application.view.scene.main.MatchMake
 import java.awt.event.ActionEvent
+import javax.swing.JPanel
 
 object HomeSceneController : SceneController(){
     //このコントローラーで受け取る処理命令
@@ -11,7 +12,8 @@ object HomeSceneController : SceneController(){
     const val MOVE_TEST_BATTLE_C = "MOVE_RANK_BATTLE"
 
     //scene
-    override val scene = Home()
+    val scene = Home()
+    override var ascene: JPanel = scene
     private val matchMake = MatchMake()
 
     @Override

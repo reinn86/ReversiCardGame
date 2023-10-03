@@ -3,7 +3,7 @@ package application.view.scene.battle
 import application.controller.BattleSceneController
 import application.view.Panel
 import domain.service.reversi.Coordinate
-import java.awt.Color
+import domain.service.reversi.StoneStatus
 import java.awt.Dimension
 import java.awt.event.ActionEvent
 import java.awt.event.ActionListener
@@ -12,6 +12,7 @@ import javax.swing.JButton
 
 class Board : Panel(),ActionListener {
     private val blackStoneImage = ImageIcon("src/main/resources/images/game_reversi_black.png")
+    private val whiteStoneImage = ImageIcon("src/main/resources/images/game_reversi_white.png")
     private val gridSize  = 6 - 1
     val squares = Array(6) {
         arrayOfNulls<JButton>(6)
@@ -36,39 +37,44 @@ class Board : Panel(),ActionListener {
                 squares[x][y]!!.isOpaque = true
                 squares[x][y]!!.isContentAreaFilled = true
                 squares[x][y]!!.background = null
-//                squares[x][y]!!.actionCommand = BattleSceneController.PUT_STONE + "_${x}_${y}"
                 squares[x][y]!!.actionCommand = "${x}_${y}"
                 squares[x][y]!!.size  = Dimension(squareWidth,squareHeight)
-//                squares[x][y]!!.addActionListener(BattleSceneController)
                 squares[x][y]!!.addActionListener(this)
                 squares[x][y]!!.setLocation(localX,localY)
                 add(squares[x][y])
             }
         }
-        squares[2][2]!!.background = Color.WHITE
-        squares[2][3]!!.background = Color.BLACK
-        squares[3][2]!!.background = Color.BLACK
-        squares[3][3]!!.background = Color.WHITE
+//        val bpath = "C:\\Users\\tanuki\\Documents\\ReversiCardGame\\src\\main\\resources\\images\\game_reversi_black.png"
+//        val wpath = "C:\\Users\\tanuki\\Documents\\ReversiCardGame\\src\\main\\resources\\images\\game_reversi_white.png"
+        val b = blackStoneImage.image.getScaledInstance(vw(10.0),vw(10.0),0)
+        val w = whiteStoneImage.image.getScaledInstance(vw(10.0),vw(10.0),0)
+        squares[2][2]!!.icon = ImageIcon(w)
+        squares[2][3]!!.icon = ImageIcon(b)
+        squares[3][2]!!.icon = ImageIcon(b)
+        squares[3][3]!!.icon = ImageIcon(w)
 
     }
 
     fun initBoard() {
         for (y in 0 .. gridSize) {
             for (x in 0 .. gridSize) {
-                squares[x][y]!!.background = null
+                squares[x][y]!!.icon = null
             }
         }
-        squares[2][2]!!.background = Color.WHITE
-        squares[2][3]!!.background = Color.BLACK
-        squares[3][2]!!.background = Color.BLACK
-        squares[3][3]!!.background = Color.WHITE
-
+//        val bpath = "C:\\Users\\tanuki\\Documents\\ReversiCardGame\\src\\main\\resources\\images\\game_reversi_black.png"
+//        val wpath = "C:\\Users\\tanuki\\Documents\\ReversiCardGame\\src\\main\\resources\\images\\game_reversi_white.png"
+        val b = blackStoneImage.image.getScaledInstance(vw(10.0),vw(10.0),0)
+        val w = whiteStoneImage.image.getScaledInstance(vw(10.0),vw(10.0),0)
+        squares[2][2]!!.icon = ImageIcon(w)
+        squares[2][3]!!.icon = ImageIcon(b)
+        squares[3][2]!!.icon = ImageIcon(b)
+        squares[3][3]!!.icon = ImageIcon(w)
     }
 
     override fun actionPerformed(e: ActionEvent) {
-        clickedButton = e.actionCommand
-//        val str = e.source
         val btn = JButton()
+
+        clickedButton = e.actionCommand
         btn.actionCommand = BattleSceneController.PUT_STONE
         btn.addActionListener(BattleSceneController)
         btn.doClick()
@@ -78,5 +84,17 @@ class Board : Panel(),ActionListener {
         val x = clickedButton.split("_")[0].toInt()
         val y = clickedButton.split("_")[1].toInt()
         return Coordinate(x,y)
+    }
+
+    fun changeImage(color: Int,x: Int,y:Int) {
+        if(color == StoneStatus.BLACK) {
+//            val path = "C:\\Users\\tanuki\\Documents\\ReversiCardGame\\src\\main\\resources\\images\\game_reversi_black.png"
+            val a = blackStoneImage.image.getScaledInstance(vw(10.0),vw(10.0),0)
+            squares[x][y]!!.icon = ImageIcon(a)
+        } else if(color == StoneStatus.WHITE) {
+//            val path = "C:\\Users\\tanuki\\Documents\\ReversiCardGame\\src\\main\\resources\\images\\game_reversi_white.png"
+            val a = whiteStoneImage.image.getScaledInstance(vw(10.0),vw(10.0),0)
+            squares[x][y]!!.icon = ImageIcon(a)
+        }
     }
 }

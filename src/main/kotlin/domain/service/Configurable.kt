@@ -5,9 +5,6 @@ import domain.model.Resolution
 import java.io.FileInputStream
 import java.lang.Class.forName
 
-/*
- * TODO いんたーふぇーすにしたほうがいいかも
- */
 interface Configurable {
     val path: String
     val inputStream: FileInputStream

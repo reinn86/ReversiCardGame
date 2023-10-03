@@ -6,6 +6,7 @@ import application.view.scene.welcome.Welcome
 import domain.model.ApplicationEnvironment
 import domain.service.OAuthCertifiable
 import java.awt.event.ActionEvent
+import javax.swing.JPanel
 
 object TitleSceneController : SceneController(),OAuthCertifiable {
     //このコントローラーで受け取る処理命令
@@ -15,7 +16,8 @@ object TitleSceneController : SceneController(),OAuthCertifiable {
     const val CHANGE_RESOLUTION = "CHANGE_RESOLUTION"
 
     //scene
-    override val scene = Welcome()
+    val scene = Welcome()
+    override var ascene: JPanel = scene
     /*
      * TODO 本来はシーンパネルの中に入ってるべきなので修正
      */

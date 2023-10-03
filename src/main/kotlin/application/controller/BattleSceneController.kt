@@ -1,15 +1,17 @@
 package application.controller
 
 import application.view.Panel
+import application.view.Window
 import application.view.scene.battle.Battle
+import application.view.scene.battle.Result
 import domain.model.network.P2P
 import domain.service.reversi.Coordinate
 import domain.service.reversi.Reversi
 import domain.service.reversi.StoneStatus
-import java.awt.Color
 import java.awt.event.ActionEvent
 import java.io.IOException
 import java.lang.Thread.sleep
+import javax.swing.JPanel
 import kotlin.concurrent.thread
 
 object BattleSceneController : SceneController() {
@@ -22,43 +24,44 @@ object BattleSceneController : SceneController() {
     private const val COMPLETE_PUT_STONE = "COMPLETE_PUT_STONE"
     private const val PASS = "PASS"
     private const val GAME_END = "GAME_END"
+    const val MOVE_HOME = "MOVE_HOME"
 
     //service
-    private val reversi = Reversi()
+    val reversi = Reversi()
 
     //model
     private val peer = P2P()
 
     //scene
     private val battleScene = Battle()
-    override val scene: Panel = battleScene
+
+    override var ascene: JPanel = battleScene
+    val scene: Panel = battleScene
 
     override fun actionPerformed(e: ActionEvent) {
-        val command = e.actionCommand
-
-        when(command) {
+        when(e.actionCommand) {
             PUT_STONE -> {
                 val coordinate = battleScene.getClickedBoardCoordinate()
                 val x = coordinate.x
                 val y = coordinate.y
-                val canPutStoneCoordinate = reversi.board.searchPlaceableCoordinate(reversi.myStoneColor)
+                val canPutStoneCoordinate = reversi.searchPlaceableCoordinate()
 
                 //石を置くことが可能な座標の数
                 if (canPutStoneCoordinate.size == 0) {
+                    changeButtonClickable(false)
                     peer.sendUTF(PASS)
-                }
-                else {
-                    //座標に石が何も置かれていないか
-                    if(reversi.board.getState(x,y) == StoneStatus.EMPTY) {
-                        for (coordinate in canPutStoneCoordinate) {
-                            if (coordinate.matches(Coordinate(x,y))) {
-                                putStone(x, y, reversi.myStoneColor)
-                                peer.sendUTF("${PUT_STONE}_${x}_${y}")
-                                break
-                            }
+                } else {
+                    for (i in canPutStoneCoordinate) {
+                        if (i.matches(Coordinate(x, y))) {
+                            putStone(x, y, reversi.myStoneColor)
+                            peer.sendUTF("${PUT_STONE}_${x}_${y}")
+                            break
                         }
                     }
                 }
+            }
+            MOVE_HOME -> {
+                BattleSceneController.changeController(HomeSceneController)
             }
         }
     }
@@ -86,10 +89,12 @@ object BattleSceneController : SceneController() {
         for (i in put) {
             reversi.putStone(i.x, i.y, state)
             if (state == StoneStatus.BLACK) {
-                battleScene.boardPanel.squares[i.x][i.y]!!.background = Color.BLACK
+//                battleScene.boardPanel.squares[i.x][i.y]!!.background = Color.BLACK
+                battleScene.boardPanel.changeImage(StoneStatus.BLACK,i.x,i.y)
             }
             else if(state == StoneStatus.WHITE) {
-                battleScene.boardPanel.squares[i.x][i.y]!!.background = Color.WHITE
+                battleScene.boardPanel.changeImage(StoneStatus.WHITE,i.x,i.y)
+//                battleScene.boardPanel.squares[i.x][i.y]!!.background = Color.WHITE
             }
         }
     }
@@ -193,14 +198,16 @@ object BattleSceneController : SceneController() {
                             peer.sendUTF(GAME_END)
                             peer.close()
                             isCommunication = false
+                            Window.contentPane = Result()
                         }
                         else {
                             changeButtonClickable(true)
                         }
                     }
                     else if(command == GAME_END) {
-                        changeController(HomeSceneController)
+//                        changeController(HomeSceneController)
                         peer.close()
+                        Window.contentPane = Result()
                         isCommunication = false
                     }
                     sleep(100)

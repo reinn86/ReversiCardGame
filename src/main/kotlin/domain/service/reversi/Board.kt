@@ -12,6 +12,20 @@ class Board(troutX: Int, troutY: Int) {
         IntArray(troutY)
     }
 
+    fun countStone(color: Int): Int {
+        var count = 0
+
+        for (x in 0 until troutX) {
+            for (y in 0 until troutY) {
+                    if(boardState[x][y] == color) {
+                        count++
+                    }
+            }
+        }
+
+        return count
+    }
+
     /*
      * ボードの初期化
      * ゲームを始める前に実行する
@@ -81,8 +95,9 @@ class Board(troutX: Int, troutY: Int) {
                     reversibleCoordinates.add(Coordinate(rayCoordinates[i].x,rayCoordinates[i].y))
                 }
                 else if(boardState[rayCoordinates[i].x][rayCoordinates[i].y] == stoneColor) { //自分の色になったら
-                    if(reversibleCoordinates.size >= 1) {
+                    if(reversibleCoordinates.size >= 1 && boardState[rayCoordinates[i].x][rayCoordinates[i].y] != rivalStoneColor) {
                         reversibleCoordinates.add(0,Coordinate(rayCoordinates[0].x,rayCoordinates[0].y))
+                        println("${rayCoordinates[0].x}:${rayCoordinates[0].y}")
                         return reversibleCoordinates
                     }
                     return arrayListOf()

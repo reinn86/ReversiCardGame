@@ -1,11 +1,12 @@
-import domain.model.network.P2P
-import kotlin.concurrent.thread
+import javax.swing.JFrame
 
 fun main() {
-    val p = P2P()
+    //System.out.println("Hello world!")
+      println("Hello world!")
 
-    thread {
-        p.connection(true,10000)
-    }
-    println("aaa")
+    // String str = "a"
+       val str = "a"
+
+    // Frame frame = new JFrame()
+        val frame = JFrame()
 }
