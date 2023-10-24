@@ -18,7 +18,7 @@ class Battle : Panel() {
     //components
     val boardPanel = Board()
     private val resultLabel = JLabel()
-    private val bgPath = "src/main/resources/images/title_bg.jpeg"
+    private val bgPath = "src/main/resources/image/bg_battle.jpg"
 
     @Override
     override fun paintComponent(g: Graphics) {

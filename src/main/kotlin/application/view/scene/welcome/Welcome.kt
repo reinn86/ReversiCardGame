@@ -13,9 +13,10 @@ import javax.swing.JButton
 import javax.swing.JLabel
 
 class Welcome : Panel(){
+    // TODO コンポーネントごとに変数を配置した方がいい
     //filePaths
-    private val bgPath = "src/main/resources/images/title_bg.jpeg"
-    private val settingIconPath = "src/main/resources/images/icon_setting.png"
+    private val bgPath = "src/main/resources/image/bg_title.jpeg"
+    private val settingIconPath = "src/main/resources/image/icon_setting.png"
 
     //locations
     private val startButtonX = vw(0.0)

@@ -8,7 +8,7 @@ import javax.swing.JButton
 import javax.swing.JLabel
 
 class Result : Panel() {
-    private val resultText = "あなたの${getResult()}です"
+    private val resultText = getResult()
     private val resultTextLabel = JLabel()
     private val resultTextLabelSize =Dimension(vw(80.0),vh(20.0))
     private val resultTextLabelX = vw(10.0)
@@ -43,11 +43,11 @@ class Result : Panel() {
         val myStoneCount = BattleSceneController.reversi.board.countStone(myStoneColor)
         val rivalStoneCount = BattleSceneController.reversi.board.countStone(rivalStoneColor)
         if(myStoneCount > rivalStoneCount) {
-            return "勝ち"
+            return "あなたの勝ちです！"
         } else if(myStoneColor < rivalStoneCount) {
-            return "負け"
+            return "あなたの負けです…"
         } else {
-            return "引き分け"
+            return "引き分けでした"
         }
     }
 }

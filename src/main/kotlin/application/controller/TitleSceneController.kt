@@ -8,7 +8,7 @@ import domain.service.OAuthCertifiable
 import java.awt.event.ActionEvent
 import javax.swing.JPanel
 
-object TitleSceneController : SceneController(),OAuthCertifiable {
+object TitleSceneController : AbstractController(),OAuthCertifiable {
     //このコントローラーで受け取る処理命令
     const val MOVE_SETTING = "OPEN_SETTING"
     const val MOVE_HOME = "MOVE_HOME"
@@ -17,7 +17,7 @@ object TitleSceneController : SceneController(),OAuthCertifiable {
 
     //scene
     val scene = Welcome()
-    override var ascene: JPanel = scene
+    override var mainPanel: JPanel = scene
     /*
      * TODO 本来はシーンパネルの中に入ってるべきなので修正
      */
@@ -27,7 +27,6 @@ object TitleSceneController : SceneController(),OAuthCertifiable {
     override fun actionPerformed(e: ActionEvent?) {
         when(e?.actionCommand) {
             MOVE_HOME -> {
-//                authenticateGoogle()
                 changeController(HomeSceneController)
             }
             MOVE_SETTING -> {

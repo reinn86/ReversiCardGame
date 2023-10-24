@@ -6,7 +6,7 @@ import javax.swing.SwingUtilities
 class Main :Runnable{
     override fun run() {
         Window.createWindow()
-        TitleSceneController.start(TitleSceneController.scene)
+        TitleSceneController.start()
     }
 }
 fun main() {

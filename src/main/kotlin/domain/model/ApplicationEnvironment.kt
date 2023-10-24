@@ -2,8 +2,8 @@ package domain.model
 
 object ApplicationEnvironment {
     var appResolution = Resolution.WIDE_SVGA
-    var bgmVolume = 0
-    var seVolume = 0
+    private var bgmVolume = 0
+    private var seVolume = 0
 
     /*
      * 入力されたbgm音量の値が正しいかチェック

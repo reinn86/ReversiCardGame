@@ -6,25 +6,22 @@ import application.view.Window.validate
 import java.awt.event.ActionListener
 import javax.swing.JPanel
 
-abstract class SceneController : ActionListener{
-    abstract var ascene : JPanel
+abstract class AbstractController : ActionListener{
+    abstract var mainPanel : JPanel
 
     fun start() {
-//        ascene = scene
-        Window.contentPane = ascene
+        Window.contentPane = mainPanel
         validate()
         repaint()
     }
 
     fun start(scene: JPanel) {
-        Window.contentPane = ascene
+        Window.contentPane = mainPanel
         validate()
         repaint()
     }
 
-    fun changeController(sceneController: SceneController) {
+    fun changeController(sceneController: AbstractController) {
         sceneController.start()
     }
-
-    //todo コマンド受け取りの処理は共通なのでオーバライドさせるように作るといいかも
 }

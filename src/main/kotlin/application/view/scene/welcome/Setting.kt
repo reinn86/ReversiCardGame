@@ -12,7 +12,7 @@ import javax.swing.JLabel
 
 class Setting : Panel(){
     //filePaths
-    private val bgPath = "src/main/resources/images/title_bg.jpeg"
+    private val bgPath = "src/main/resources/image/bg_setting.png"
 
     //locations
     private val prevButtonX = vw(1.0)
@@ -80,20 +80,23 @@ class Setting : Panel(){
         super.paintComponent(g)
         //fonts
         val selectionFont = Font("Serif", Font.PLAIN,vw(5.0))
-        //locations
-        val bgLocationX = 0
-        val bgLocationY = 0
 
         //sizes
-        val bgImageWidth = vw(100.0)
+        val bgImageWidth = vw((vh(100.0)/(ImageIO.read(File(bgPath)).height)) * 100.0)
+//        val bgImageWidth = ImageIO.read(File(bgPath)).width
         val bgImageHeight = vh(100.0)
+//        val bgImageHeight = ImageIO.read(File(bgPath)).height
+        //locations
+//        val bgLocationX = -(bgImageWidth /2) + ApplicationEnvironment.appResolution.toDimension().width/2 -16
+        val bgLocationX = horizontalCenter(bgImageWidth)
+        val bgLocationY = 0
 
         //images
         val bgImage = ImageIO.read(File(bgPath)).getScaledInstance(
-            bgImageWidth,
-            bgImageHeight,
-            Image.SCALE_DEFAULT
-        )
+                bgImageWidth,
+                bgImageHeight,
+                Image.SCALE_REPLICATE
+            )
 
         resolutionCombo.font = selectionFont
 

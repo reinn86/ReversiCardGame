@@ -14,17 +14,18 @@ import java.lang.Thread.sleep
 import javax.swing.JPanel
 import kotlin.concurrent.thread
 
-object BattleSceneController : SceneController() {
+object BattleSceneController : AbstractController() {
     //actionCommand
     const val PUT_STONE = "PUT_STONE"
+    const val MOVE_HOME = "MOVE_HOME"
 
     //communicationCommand
     private const val CONNECT = "CONNECT"
     private const val DECIDE_TURN = "DECIDE_TURN"
     private const val COMPLETE_PUT_STONE = "COMPLETE_PUT_STONE"
     private const val PASS = "PASS"
+
     private const val GAME_END = "GAME_END"
-    const val MOVE_HOME = "MOVE_HOME"
 
     //service
     val reversi = Reversi()
@@ -35,7 +36,7 @@ object BattleSceneController : SceneController() {
     //scene
     private val battleScene = Battle()
 
-    override var ascene: JPanel = battleScene
+    override var mainPanel: JPanel = battleScene
     val scene: Panel = battleScene
 
     override fun actionPerformed(e: ActionEvent) {
@@ -89,12 +90,10 @@ object BattleSceneController : SceneController() {
         for (i in put) {
             reversi.putStone(i.x, i.y, state)
             if (state == StoneStatus.BLACK) {
-//                battleScene.boardPanel.squares[i.x][i.y]!!.background = Color.BLACK
                 battleScene.boardPanel.changeImage(StoneStatus.BLACK,i.x,i.y)
             }
             else if(state == StoneStatus.WHITE) {
                 battleScene.boardPanel.changeImage(StoneStatus.WHITE,i.x,i.y)
-//                battleScene.boardPanel.squares[i.x][i.y]!!.background = Color.WHITE
             }
         }
     }
@@ -141,16 +140,16 @@ object BattleSceneController : SceneController() {
         setUpBattle()
         peer.connection(true,10000)
         decideStoneColor()
-        startCommandReception(true,10000)
+        startCommandReception()
     }
 
     fun connectClient() {
         setUpBattle()
         peer.connection(false,10000)
-        startCommandReception(false,10000)
+        startCommandReception()
     }
     
-    private fun startCommandReception(isHost: Boolean, port: Int) {
+    private fun startCommandReception() {
         thread {
             var isCommunication = true
 

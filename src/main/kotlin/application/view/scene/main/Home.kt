@@ -16,22 +16,26 @@ class Home : Panel() {
     private val moveRankBattleButtonX = vw(5.0)
     private val moveRankBattleButtonY = vh(60.0)
     private val moveCasualBattleButtonX = vw(5.0)
-    private val moveCasualBattleButtonY = vw(80.0)
+    private val moveCasualBattleButtonY = vh(75.0)
+    private val moveBattleButtonX = vw(5.0)
+    private val moveBattleButtonY = vh(90.0)
 
     //sizes
     private val moveTitleButtonSize = Dimension(vw(10.0),vw(10.0))
     private val moveRankBattleButtonSize = Dimension(vw(90.0),vh(10.0))
     private val moveCasualBattleButtonSize = Dimension(vw(90.0),vh(10.0))
+    private val moveBattleSize = Dimension(vw(90.0),vh(10.0))
 
     //components
     private val moveTitleButton = JButton()
     private val moveCasualBattleButton = JButton()
     private val moveRankBattleButton = JButton()
+    private val moveBattleButton = JButton()
 
     //texts
     private val moveCasualBattleButtonText = "バトルテスト h"
     private val moveRankBattleButtonText = "バトルテスト c"
-    private val bgPath = "src/main/resources/images/title_bg.jpeg"
+    private val bgPath = "src/main/resources/image/bg_title.jpeg"
     @Override
     override fun paintComponent(g: Graphics) {
         //locations
@@ -72,9 +76,19 @@ class Home : Panel() {
         moveCasualBattleButton.addActionListener(HomeSceneController)
         moveCasualBattleButton.setLocation(moveCasualBattleButtonX,moveCasualBattleButtonY)
 
+//        moveCasualBattleButtonの設定
+//        moveCasualBattleButton.actionCommand = HomeSceneController.MOVE_TEST_BATTLE_S
+        moveBattleButton.actionCommand = HomeSceneController.MOVE_BATTLE
+        moveBattleButton.size = moveBattleSize
+//        moveCasualBattleButton.text  = moveCasualBattleButtonText
+        moveBattleButton.addActionListener(HomeSceneController)
+        moveBattleButton.setLocation(moveBattleButtonX,moveBattleButtonY)
+
+
         //viewの配置
         add(moveTitleButton)
         add(moveRankBattleButton)
         add(moveCasualBattleButton)
+        add(moveBattleButton)
     }
 }

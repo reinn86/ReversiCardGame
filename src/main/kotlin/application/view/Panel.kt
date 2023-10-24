@@ -5,7 +5,7 @@ import domain.model.ApplicationEnvironment
 import java.awt.Color
 import javax.swing.JPanel
 
-open class Panel : JPanel(),Resizable{
+open class Panel : JPanel(),Resizable,Deployable{
 
     init {
         size = ApplicationEnvironment.appResolution.toDimension()
@@ -14,12 +14,4 @@ open class Panel : JPanel(),Resizable{
         isOpaque = true
         isVisible = true
     }
-
-//    open fun vw(double: Double): Int {
-//        return (size.width * (double / 100.0)).toInt()
-//    }
-//
-//    open fun vh(double: Double): Int {
-//        return (size.height * (double / 100.0)).toInt()
-//    }
 }
