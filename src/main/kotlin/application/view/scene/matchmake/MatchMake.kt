@@ -1,4 +1,4 @@
-package application.view.scene.main
+package application.view.scene.matchmake
 
 import application.view.Panel
 import java.awt.Dimension

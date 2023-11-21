@@ -1,7 +1,7 @@
 package application.controller
 
 import application.view.Window
-import application.view.scene.welcome.Setting
+import application.view.scene.setting.Setting
 import application.view.scene.welcome.Welcome
 import domain.model.ApplicationEnvironment
 import domain.service.OAuthCertifiable

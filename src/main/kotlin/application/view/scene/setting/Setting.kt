@@ -1,4 +1,4 @@
-package application.view.scene.welcome
+package application.view.scene.setting
 
 import application.controller.TitleSceneController
 import application.view.Panel

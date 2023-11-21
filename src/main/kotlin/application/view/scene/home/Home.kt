@@ -1,4 +1,4 @@
-package application.view.scene.main
+package application.view.scene.home
 
 import application.controller.HomeSceneController
 import application.view.Panel
@@ -83,7 +83,6 @@ class Home : Panel() {
 //        moveCasualBattleButton.text  = moveCasualBattleButtonText
         moveBattleButton.addActionListener(HomeSceneController)
         moveBattleButton.setLocation(moveBattleButtonX,moveBattleButtonY)
-
 
         //viewの配置
         add(moveTitleButton)

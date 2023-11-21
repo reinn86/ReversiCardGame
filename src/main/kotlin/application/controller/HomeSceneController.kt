@@ -1,8 +1,9 @@
 package application.controller
 
 import application.view.Window
-import application.view.scene.main.Home
-import application.view.scene.main.MatchMake
+import application.view.scene.home.Home
+import application.view.scene.matchmake.MatchMake
+import domain.model.network.WebSocketClient
 import java.awt.event.ActionEvent
 import javax.swing.JPanel
 
@@ -35,6 +36,8 @@ object HomeSceneController : AbstractController(){
             }
             MOVE_BATTLE -> {
                 Window.contentPane = matchMake
+                WebSocketClient().connectWS(null)
+
             }
         }
     }
