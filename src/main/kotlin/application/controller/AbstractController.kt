@@ -10,25 +10,25 @@ import javax.swing.JPanel
 abstract class AbstractController : ActionListener{
     abstract var mainPanel : JPanel
 
+    abstract fun onStart()
+    abstract fun onControllerChange()
+    abstract fun onEnd()
 
-    fun show(scene:JPanel) {
-        Window.contentPane = scene
-        validate()
-        repaint()
-    }
     fun start() {
         Window.contentPane = mainPanel
+        onStart()
         validate()
         repaint()
     }
 
     fun start(scene: JPanel) {
         Window.contentPane = mainPanel
+        onStart()
         validate()
         repaint()
     }
-
     fun changeController(sceneController: AbstractController) {
+        onControllerChange()
         sceneController.start()
     }
 }

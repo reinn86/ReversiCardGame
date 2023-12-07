@@ -4,10 +4,11 @@ import application.view.Panel
 import application.view.Window
 import application.view.scene.battle.Battle
 import application.view.scene.battle.Result
-import domain.model.network.P2P
+import com.google.gson.Gson
 import domain.service.reversi.Coordinate
 import domain.service.reversi.Reversi
 import domain.service.reversi.StoneStatus
+import okhttp3.WebSocket
 import java.awt.event.ActionEvent
 import java.io.IOException
 import java.lang.Thread.sleep
@@ -31,10 +32,16 @@ object BattleSceneController : AbstractController() {
     val reversi = Reversi()
 
     //model
-    private val peer = P2P()
-
+//    private val peer = P2P()
+    private  val peer = MatchMakeSceneController.wsc
+    private var ws : WebSocket = peer.connectWS(peer.roomId)
     //scene
     private val battleScene = Battle()
+    override fun onStart() {
+        Window.contentPane = battleScene
+    }
+    override fun onEnd() {}
+    override fun onControllerChange() {}
 
     override var mainPanel: JPanel = battleScene
     val scene: Panel = battleScene
@@ -50,12 +57,13 @@ object BattleSceneController : AbstractController() {
                 //石を置くことが可能な座標の数
                 if (canPutStoneCoordinate.size == 0) {
                     changeButtonClickable(false)
-                    peer.sendUTF(PASS)
+//                    peer.send(PASS)
+                        ws.send(Gson().toJson(PASS))
                 } else {
                     for (i in canPutStoneCoordinate) {
                         if (i.matches(Coordinate(x, y))) {
                             putStone(x, y, reversi.myStoneColor)
-                            peer.sendUTF("${PUT_STONE}_${x}_${y}")
+                            ws.send(Gson().toJson("${PUT_STONE}_${x}_${y}"))
                             break
                         }
                     }
@@ -81,7 +89,7 @@ object BattleSceneController : AbstractController() {
             changeButtonClickable(true)
         }
         println("send:$DECIDE_TURN")
-        peer.sendUTF("${DECIDE_TURN}_${rivalStoneColor}")
+        ws.send(Gson().toJson("${DECIDE_TURN}_${rivalStoneColor}"))
     }
 
     private fun putStone(x: Int, y: Int,state: Int) {
@@ -136,20 +144,21 @@ object BattleSceneController : AbstractController() {
         reversi.board.initBoard()
     }
 
-    fun connectServer() {
-        setUpBattle()
-        peer.connection(true,10000)
-        decideStoneColor()
-        startCommandReception()
-    }
-
+//    fun connectServer() {
+//        setUpBattle()
+//        peer.connection(true,10000)
+//        decideStoneColor()
+//        startCommandReception()
+//    }
+//
     fun connectClient() {
         setUpBattle()
-        peer.connection(false,10000)
-        startCommandReception()
+//        peer.connection(false,10000)
+        decideStoneColor()
+        peer.doCommand("")
     }
     
-    private fun startCommandReception() {
+    fun startCommandReception(str :String) {
         thread {
             var isCommunication = true
 
@@ -157,62 +166,59 @@ object BattleSceneController : AbstractController() {
              * fixme コマンドのところには流れを書くのではなく処理を描く
              */
             try {
-                while (isCommunication) {
-                    val command = peer.readUTF()
-                    if (command.matches(Regex("${CONNECT}_.*"))) {
-                        println("get:$CONNECT")
-                    }
-                    else if(command.matches(Regex("${DECIDE_TURN}_.+"))) { //DECIDE_TURN
-                        println("get:$DECIDE_TURN")
+                while (peer.isConnect) {
+                    val command = str
+                    println(command)
+                    if (command != null) {
+                        if (command.matches(Regex("${CONNECT}_.*"))) {
+                            println("get:$CONNECT")
+                        } else if(command.matches(Regex("${DECIDE_TURN}_.+"))) { //DECIDE_TURN
+                            println("get:$DECIDE_TURN")
 
-                        reversi.myStoneColor = command.split("_")[2].toInt()
-                        println("stone_color${reversi.myStoneColor}")
+                            reversi.myStoneColor = command.split("_")[2].toInt()
+                            println("stone_color${reversi.myStoneColor}")
 
-                        if (reversi.myStoneColor == StoneStatus.BLACK) {
+                            if (reversi.myStoneColor == StoneStatus.BLACK) {
+                                changeButtonClickable(true)
+
+                            } else if(reversi.myStoneColor == StoneStatus.WHITE){
+                                changeButtonClickable(false)
+                            }
+                        } else if(command.matches(Regex("${PUT_STONE}_.+"))) { //PUT_STONE
+                            println("get:$PUT_STONE")
+
+                            commandPutStone(command)
+                            peer.doCommand(COMPLETE_PUT_STONE)
                             changeButtonClickable(true)
 
-                        } else if(reversi.myStoneColor == StoneStatus.WHITE){
+                            if ( reversi.board.searchPlaceableCoordinate(reversi.myStoneColor).size == 0) {
+                                peer.doCommand(PASS)
+                            }
+
+                        } else if (command == COMPLETE_PUT_STONE){ //COMPLETE_PUT_STONE
+                            println("get:$COMPLETE_PUT_STONE")
                             changeButtonClickable(false)
-                        }
-                    }
-                    else if(command.matches(Regex("${PUT_STONE}_.+"))) { //PUT_STONE
-                        println("get:$PUT_STONE")
-
-                        commandPutStone(command)
-                        peer.sendUTF(COMPLETE_PUT_STONE)
-                        changeButtonClickable(true)
-
-                        if ( reversi.board.searchPlaceableCoordinate(reversi.myStoneColor).size == 0) {
-                            peer.sendUTF(PASS)
-                        }
-
-                    }
-                    else if (command == COMPLETE_PUT_STONE){ //COMPLETE_PUT_STONE
-                        println("get:$COMPLETE_PUT_STONE")
-                        changeButtonClickable(false)
-                    }
-                    else if(command == PASS) {
-                        if (reversi.board.searchPlaceableCoordinate(reversi.myStoneColor).size == 0) {
-                            changeController(HomeSceneController)
-                            peer.sendUTF(GAME_END)
-                            peer.close()
-                            isCommunication = false
+                        } else if(command == PASS) {
+                            if (reversi.board.searchPlaceableCoordinate(reversi.myStoneColor).size == 0) {
+                                changeController(HomeSceneController)
+                                peer.doCommand(GAME_END)
+//                                peer.close()
+                                isCommunication = false
+                                Window.contentPane = Result()
+                            } else {
+                                changeButtonClickable(true)
+                            }
+                        } else if(command == GAME_END) {
+                //                        changeController(HomeSceneController)
+//                            peer.close()
                             Window.contentPane = Result()
+                            isCommunication = false
                         }
-                        else {
-                            changeButtonClickable(true)
-                        }
-                    }
-                    else if(command == GAME_END) {
-//                        changeController(HomeSceneController)
-                        peer.close()
-                        Window.contentPane = Result()
-                        isCommunication = false
                     }
                     sleep(100)
                 }
             }catch (e: IOException) {
-                peer.close()
+//                peer.close()
                 changeController(HomeSceneController)
             }
         }

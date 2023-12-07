@@ -15,6 +15,9 @@ object TitleSceneController : AbstractController(),OAuthCertifiable {
     const val MOVE_TITLE = "MOVE_TITLE"
     const val CHANGE_RESOLUTION = "CHANGE_RESOLUTION"
 
+    override fun onStart() {}
+    override fun onEnd() {}
+    override fun onControllerChange() {}
     //scene
     val scene = Welcome()
     override var mainPanel: JPanel = scene

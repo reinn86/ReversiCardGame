@@ -1,9 +1,7 @@
 package application.controller
 
-import application.view.Window
 import application.view.scene.home.Home
 import application.view.scene.matchmake.MatchMake
-import domain.model.network.WebSocketClient
 import java.awt.event.ActionEvent
 import javax.swing.JPanel
 
@@ -18,6 +16,9 @@ object HomeSceneController : AbstractController(){
     val scene = Home()
     override var mainPanel: JPanel = scene
     private val matchMake = MatchMake()
+    override fun onStart() {}
+    override fun onEnd() {}
+    override fun onControllerChange() {}
 
     @Override
     override fun actionPerformed(e: ActionEvent?) {
@@ -28,16 +29,14 @@ object HomeSceneController : AbstractController(){
             MOVE_TEST_BATTLE_S -> {
                 //TODO ホストとクライアントを自動で決める機能の作成
                 changeController(BattleSceneController)
-                BattleSceneController.connectServer()
+//                BattleSceneController.connectServer()
             }
             MOVE_TEST_BATTLE_C -> {
                 changeController(BattleSceneController)
-                BattleSceneController.connectClient()
+//                BattleSceneController.connectClient()
             }
             MOVE_BATTLE -> {
-                Window.contentPane = matchMake
-                WebSocketClient().connectWS(null)
-
+                changeController(MatchMakeSceneController)
             }
         }
     }

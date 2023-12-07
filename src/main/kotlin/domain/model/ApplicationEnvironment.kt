@@ -1,7 +1,7 @@
 package domain.model
 
 object ApplicationEnvironment {
-    var appResolution = Resolution.WIDE_SVGA
+    var appResolution = Resolution.LAPTOP
     private var bgmVolume = 0
     private var seVolume = 0
 

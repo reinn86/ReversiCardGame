@@ -1,20 +1,19 @@
 package domain.model.network
 
+import application.controller.BattleSceneController
 import com.google.gson.Gson
 import com.google.gson.JsonObject
 import okhttp3.*
 import okio.ByteString
 import java.util.*
-import javax.swing.*
-import javax.swing.border.EmptyBorder
 
 class WebSocketClient{
     private lateinit var ws: WebSocket
-    private var roomId: String? = null // roomId保存用変数
+    var roomId: String? = null // roomId保存用変数
     private var playerId: String? = null // plyaerId保存用変数
-
+    var isConnect = false
     // リスナーを外に切り分け
-    private val wsl: WebSocketListener = object : WebSocketListener() {
+    val wsl: WebSocketListener = object : WebSocketListener() {
         override fun onOpen(webSocket: WebSocket, response: Response) {
             super.onOpen(webSocket, response)
             println("open: $response")
@@ -22,6 +21,7 @@ class WebSocketClient{
 
         override fun onClosing(webSocket: WebSocket, code: Int, reason: String) {
             super.onClosing(webSocket, code, reason)
+            isConnect = false
             println("closing: $reason")
         }
 
@@ -38,6 +38,8 @@ class WebSocketClient{
         override fun onMessage(webSocket: WebSocket, text: String) {
             super.onMessage(webSocket, text)
             println("message strs: $text")
+            isConnect = true
+            println(isConnect)
             doCommand(text) // コマンド実行処理追加
         }
 
@@ -54,6 +56,7 @@ class WebSocketClient{
             if (playerId == null) {
                 playerId = UUID.randomUUID().toString() // プレイヤーIDもUUIDで作ってしまう。
             }
+            println(roomId)
             url += "?roomid=$roomId&playerid=$playerId"
         }
         val client = OkHttpClient()
@@ -72,7 +75,13 @@ class WebSocketClient{
         )
         if (jsonObject.has("command")) {
             val command = jsonObject["command"].asString
+            val jsonObject = Gson().fromJson(
+                json,
+                JsonObject::class.java
+            )
+            if (jsonObject.has("command")) {
+                BattleSceneController.startCommandReception(command)
+            }
         }
     }
-
 }
