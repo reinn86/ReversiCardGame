@@ -49,6 +49,7 @@ object BattleSceneController : AbstractController() {
     override fun actionPerformed(e: ActionEvent) {
         when(e.actionCommand) {
             PUT_STONE -> {
+//                test
                 val coordinate = battleScene.getClickedBoardCoordinate()
                 val x = coordinate.x
                 val y = coordinate.y
