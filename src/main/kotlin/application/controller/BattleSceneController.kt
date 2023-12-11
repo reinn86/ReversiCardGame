@@ -5,13 +5,12 @@ import application.view.Window
 import application.view.scene.battle.Battle
 import application.view.scene.battle.Result
 import com.google.gson.Gson
+import domain.model.network.Command
 import domain.service.reversi.Coordinate
 import domain.service.reversi.Reversi
 import domain.service.reversi.StoneStatus
 import okhttp3.WebSocket
 import java.awt.event.ActionEvent
-import java.io.IOException
-import java.lang.Thread.sleep
 import javax.swing.JPanel
 import kotlin.concurrent.thread
 
@@ -33,12 +32,16 @@ object BattleSceneController : AbstractController() {
 
     //model
 //    private val peer = P2P()
-    private  val peer = MatchMakeSceneController.wsc
-    private var ws : WebSocket = peer.connectWS(peer.roomId)
+    private  var peer = MatchMakeSceneController.wsc
+    private lateinit var ws : WebSocket
     //scene
     private val battleScene = Battle()
     override fun onStart() {
+        peer = MatchMakeSceneController.wsc
         Window.contentPane = battleScene
+        connectClient()
+        println("roomID: ${peer.roomId}")
+        ws = peer.connectWS(peer.roomId)
     }
     override fun onEnd() {}
     override fun onControllerChange() {}
@@ -57,14 +60,19 @@ object BattleSceneController : AbstractController() {
 
                 //石を置くことが可能な座標の数
                 if (canPutStoneCoordinate.size == 0) {
-                    changeButtonClickable(false)
+                    try {
+                        changeButtonClickable(false)
 //                    peer.send(PASS)
-                        ws.send(Gson().toJson(PASS))
+                        ws.send(Gson().toJson(Command(PASS)))
+                        println("send:$PASS")
+                    }catch (e:Exception) {
+                        e.stackTrace
+                    }
                 } else {
                     for (i in canPutStoneCoordinate) {
                         if (i.matches(Coordinate(x, y))) {
                             putStone(x, y, reversi.myStoneColor)
-                            ws.send(Gson().toJson("${PUT_STONE}_${x}_${y}"))
+                            ws.send(Gson().toJson(Command("${PUT_STONE}_${x}_${y}")))
                             break
                         }
                     }
@@ -90,7 +98,7 @@ object BattleSceneController : AbstractController() {
             changeButtonClickable(true)
         }
         println("send:$DECIDE_TURN")
-        ws.send(Gson().toJson("${DECIDE_TURN}_${rivalStoneColor}"))
+        ws.send(Gson().toJson(Command("${DECIDE_TURN}_${rivalStoneColor}")))
     }
 
     private fun putStone(x: Int, y: Int,state: Int) {
@@ -149,14 +157,17 @@ object BattleSceneController : AbstractController() {
 //        setUpBattle()
 //        peer.connection(true,10000)
 //        decideStoneColor()
-//        startCommandReception()
 //    }
 //
     fun connectClient() {
         setUpBattle()
+
 //        peer.connection(false,10000)
-        decideStoneColor()
-        peer.doCommand("")
+//        peer.doCommand("")
+//        println(ws.send(Gson().toJson("StartCommand")))
+
+//            decideStoneColor()
+
     }
     
     fun startCommandReception(str :String) {
@@ -166,62 +177,72 @@ object BattleSceneController : AbstractController() {
             /*
              * fixme コマンドのところには流れを書くのではなく処理を描く
              */
-            try {
-                while (peer.isConnect) {
-                    val command = str
-                    println(command)
-                    if (command != null) {
-                        if (command.matches(Regex("${CONNECT}_.*"))) {
+//            try {
+//                while (peer.isConnect) {
+                    println(str)
+
+            if (str != null) {
+                        if (str.equals("StartCommand") && peer.isPlayer1 == true) {
+                            decideStoneColor()
+                        }
+                        else if (str.matches(Regex("${CONNECT}_.*"))) {
                             println("get:$CONNECT")
-                        } else if(command.matches(Regex("${DECIDE_TURN}_.+"))) { //DECIDE_TURN
+
+
+                        } else if (str.matches(Regex("${DECIDE_TURN}_.+"))) { //DECIDE_TURN
                             println("get:$DECIDE_TURN")
 
-                            reversi.myStoneColor = command.split("_")[2].toInt()
+                            reversi.myStoneColor = str.split("_")[2].toInt()
                             println("stone_color${reversi.myStoneColor}")
 
                             if (reversi.myStoneColor == StoneStatus.BLACK) {
                                 changeButtonClickable(true)
 
-                            } else if(reversi.myStoneColor == StoneStatus.WHITE){
+                            } else if (reversi.myStoneColor == StoneStatus.WHITE) {
                                 changeButtonClickable(false)
                             }
-                        } else if(command.matches(Regex("${PUT_STONE}_.+"))) { //PUT_STONE
+                        } else if (str.matches(Regex("${PUT_STONE}_.+"))) { //PUT_STONE
                             println("get:$PUT_STONE")
 
-                            commandPutStone(command)
-                            peer.doCommand(COMPLETE_PUT_STONE)
+                            commandPutStone(str)
+                            ws.send(Gson().toJson(Command(COMPLETE_PUT_STONE)))
+//                            peer.doCommand(COMPLETE_PUT_STONE)
                             changeButtonClickable(true)
 
-                            if ( reversi.board.searchPlaceableCoordinate(reversi.myStoneColor).size == 0) {
-                                peer.doCommand(PASS)
+                            if (reversi.board.searchPlaceableCoordinate(reversi.myStoneColor).size == 0) {
+                                ws.send(Gson().toJson(Command(PASS)))
+//                                peer.doCommand(PASS)
                             }
 
-                        } else if (command == COMPLETE_PUT_STONE){ //COMPLETE_PUT_STONE
+                        } else if (str == COMPLETE_PUT_STONE) { //COMPLETE_PUT_STONE
                             println("get:$COMPLETE_PUT_STONE")
                             changeButtonClickable(false)
-                        } else if(command == PASS) {
+                        } else if (str == PASS) {
                             if (reversi.board.searchPlaceableCoordinate(reversi.myStoneColor).size == 0) {
                                 changeController(HomeSceneController)
-                                peer.doCommand(GAME_END)
+                                ws.send(Gson().toJson(Command(GAME_END)))
+//                                peer.doCommand(GAME_END)
 //                                peer.close()
+                                ws.close(1001,"")
                                 isCommunication = false
                                 Window.contentPane = Result()
                             } else {
                                 changeButtonClickable(true)
                             }
-                        } else if(command == GAME_END) {
-                //                        changeController(HomeSceneController)
+                        } else if (str == GAME_END) {
+                            //                        changeController(HomeSceneController)
 //                            peer.close()
                             Window.contentPane = Result()
                             isCommunication = false
+                            ws.close(1001,"")
                         }
                     }
-                    sleep(100)
-                }
-            }catch (e: IOException) {
+//                    sleep(100)
+//                }
+//            }catch (e: IOException) {
 //                peer.close()
-                changeController(HomeSceneController)
-            }
+//                changeController(HomeSceneController)
+//            }
         }
     }
 }

@@ -3,7 +3,6 @@ package application.controller
 import application.view.Window
 import application.view.Window.repaint
 import application.view.Window.validate
-import java.awt.event.ActionEvent
 import java.awt.event.ActionListener
 import javax.swing.JPanel
 
@@ -22,7 +21,12 @@ abstract class AbstractController : ActionListener{
     }
 
     fun start(scene: JPanel) {
-        Window.contentPane = mainPanel
+        Window.contentPane = scene
+        onStart()
+        validate()
+        repaint()
+    }
+    fun st() {
         onStart()
         validate()
         repaint()

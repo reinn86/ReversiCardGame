@@ -10,7 +10,8 @@ import java.util.*
 class WebSocketClient{
     private lateinit var ws: WebSocket
     var roomId: String? = null // roomId保存用変数
-    private var playerId: String? = null // plyaerId保存用変数
+    var playerId: String? = null // plyaerId保存用変数
+    var isPlayer1:Boolean? = null
     var isConnect = false
     // リスナーを外に切り分け
     val wsl: WebSocketListener = object : WebSocketListener() {
@@ -39,7 +40,6 @@ class WebSocketClient{
             super.onMessage(webSocket, text)
             println("message strs: $text")
             isConnect = true
-            println(isConnect)
             doCommand(text) // コマンド実行処理追加
         }
 
@@ -56,11 +56,10 @@ class WebSocketClient{
             if (playerId == null) {
                 playerId = UUID.randomUUID().toString() // プレイヤーIDもUUIDで作ってしまう。
             }
-            println(roomId)
             url += "?roomid=$roomId&playerid=$playerId"
         }
-        val client = OkHttpClient()
-        val request = Request.Builder()
+        var client = OkHttpClient()
+        var request = Request.Builder()
             .url(url)
             .build()
         println("接続$url")
@@ -69,19 +68,31 @@ class WebSocketClient{
 
     // コマンド実行処理
     fun doCommand(json: String?) {
-        val jsonObject = Gson().fromJson(
+        println("受け取ったJSON: ${json}")
+        var jsonObject = Gson().fromJson(
             json,
             JsonObject::class.java
         )
-        if (jsonObject.has("command")) {
-            val command = jsonObject["command"].asString
-            val jsonObject = Gson().fromJson(
-                json,
+       if (jsonObject.has("roomId")) {
+            roomId = jsonObject["roomId"].asString
+        }
+        if (jsonObject.has("player1")) {
+            val jsonObject1 = Gson().fromJson(
+                jsonObject["player1"],
                 JsonObject::class.java
             )
-            if (jsonObject.has("command")) {
-                BattleSceneController.startCommandReception(command)
-            }
+            isPlayer1 = playerId == jsonObject1["id"].asString
+            println(isPlayer1)
+        }
+        if (jsonObject.has("command")) {
+            val command = jsonObject["command"].asString
+//            val jsonObject = Gson().fromJson(
+//                json,
+//                JsonObject::class.java
+//            )
+//            if (jsonObject.has("command")) {
+            BattleSceneController.startCommandReception(command)
+//            }
         }
     }
 }
