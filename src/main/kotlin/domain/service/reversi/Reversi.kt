@@ -21,12 +21,16 @@ class Reversi {
     }
 
     fun getRivalStoneColor(): Int {
-        if(myStoneColor == StoneStatus.BLACK) {
-            return StoneStatus.WHITE
-        } else if (myStoneColor == StoneStatus.WHITE) {
-            return StoneStatus.BLACK
-        } else {
-            return StoneStatus.EMPTY
+        when (myStoneColor) {
+            StoneStatus.BLACK -> {
+                return StoneStatus.WHITE
+            }
+            StoneStatus.WHITE -> {
+                return StoneStatus.BLACK
+            }
+            else -> {
+                return StoneStatus.EMPTY
+            }
         }
 
     }

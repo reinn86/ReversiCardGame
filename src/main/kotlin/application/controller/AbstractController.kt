@@ -20,17 +20,6 @@ abstract class AbstractController : ActionListener{
         repaint()
     }
 
-    fun start(scene: JPanel) {
-        Window.contentPane = scene
-        onStart()
-        validate()
-        repaint()
-    }
-    fun st() {
-        onStart()
-        validate()
-        repaint()
-    }
     fun changeController(sceneController: AbstractController) {
         onControllerChange()
         sceneController.start()

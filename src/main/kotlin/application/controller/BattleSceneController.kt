@@ -103,7 +103,7 @@ object BattleSceneController : AbstractController() {
 
     private fun putStone(x: Int, y: Int,state: Int) {
         //TODO　下の関数は他クラスに干渉するべきではないのでリファクタした方がいいかも
-        val put = reversi.board.getReversibleStoneCoordinatesVector8(x,y, state)
+        val put = reversi.board.a(x,y, state)
         for (i in put) {
             reversi.putStone(i.x, i.y, state)
             if (state == StoneStatus.BLACK) {
@@ -153,96 +153,63 @@ object BattleSceneController : AbstractController() {
         reversi.board.initBoard()
     }
 
-//    fun connectServer() {
-//        setUpBattle()
-//        peer.connection(true,10000)
-//        decideStoneColor()
-//    }
-//
-    fun connectClient() {
+    private fun connectClient() {
         setUpBattle()
-
-//        peer.connection(false,10000)
-//        peer.doCommand("")
-//        println(ws.send(Gson().toJson("StartCommand")))
-
-//            decideStoneColor()
 
     }
     
     fun startCommandReception(str :String) {
         thread {
-            var isCommunication = true
 
             /*
              * fixme コマンドのところには流れを書くのではなく処理を描く
              */
-//            try {
-//                while (peer.isConnect) {
-                    println(str)
-
-            if (str != null) {
-                        if (str.equals("StartCommand") && peer.isPlayer1 == true) {
-                            decideStoneColor()
-                        }
-                        else if (str.matches(Regex("${CONNECT}_.*"))) {
-                            println("get:$CONNECT")
+            if (str == "StartCommand" && peer.isPlayer1 == true) {
+                decideStoneColor()
+            }
+            else if (str.matches(Regex("${CONNECT}_.*"))) {
+                println("get:$CONNECT")
 
 
-                        } else if (str.matches(Regex("${DECIDE_TURN}_.+"))) { //DECIDE_TURN
-                            println("get:$DECIDE_TURN")
+            } else if (str.matches(Regex("${DECIDE_TURN}_.+"))) { //DECIDE_TURN
+                println("get:$DECIDE_TURN")
 
-                            reversi.myStoneColor = str.split("_")[2].toInt()
-                            println("stone_color${reversi.myStoneColor}")
+                reversi.myStoneColor = str.split("_")[2].toInt()
+                println("stone_color${reversi.myStoneColor}")
 
-                            if (reversi.myStoneColor == StoneStatus.BLACK) {
-                                changeButtonClickable(true)
+                if (reversi.myStoneColor == StoneStatus.BLACK) {
+                    changeButtonClickable(true)
 
-                            } else if (reversi.myStoneColor == StoneStatus.WHITE) {
-                                changeButtonClickable(false)
-                            }
-                        } else if (str.matches(Regex("${PUT_STONE}_.+"))) { //PUT_STONE
-                            println("get:$PUT_STONE")
+                } else if (reversi.myStoneColor == StoneStatus.WHITE) {
+                    changeButtonClickable(false)
+                }
+            } else if (str.matches(Regex("${PUT_STONE}_.+"))) { //PUT_STONE
+                println("get:$PUT_STONE")
 
-                            commandPutStone(str)
-                            ws.send(Gson().toJson(Command(COMPLETE_PUT_STONE)))
-//                            peer.doCommand(COMPLETE_PUT_STONE)
-                            changeButtonClickable(true)
+                commandPutStone(str)
+                ws.send(Gson().toJson(Command(COMPLETE_PUT_STONE)))
+                changeButtonClickable(true)
 
-                            if (reversi.board.searchPlaceableCoordinate(reversi.myStoneColor).size == 0) {
-                                ws.send(Gson().toJson(Command(PASS)))
-//                                peer.doCommand(PASS)
-                            }
+                if (reversi.board.searchPlaceableCoordinate(reversi.myStoneColor).size == 0) {
+                    ws.send(Gson().toJson(Command(PASS)))
+                }
 
-                        } else if (str == COMPLETE_PUT_STONE) { //COMPLETE_PUT_STONE
-                            println("get:$COMPLETE_PUT_STONE")
-                            changeButtonClickable(false)
-                        } else if (str == PASS) {
-                            if (reversi.board.searchPlaceableCoordinate(reversi.myStoneColor).size == 0) {
-                                changeController(HomeSceneController)
-                                ws.send(Gson().toJson(Command(GAME_END)))
-//                                peer.doCommand(GAME_END)
-//                                peer.close()
-                                ws.close(1001,"")
-                                isCommunication = false
-                                Window.contentPane = Result()
-                            } else {
-                                changeButtonClickable(true)
-                            }
-                        } else if (str == GAME_END) {
-                            //                        changeController(HomeSceneController)
-//                            peer.close()
-                            Window.contentPane = Result()
-                            isCommunication = false
-                            ws.close(1001,"")
-                        }
-                    }
-//                    sleep(100)
-//                }
-//            }catch (e: IOException) {
-//                peer.close()
-//                changeController(HomeSceneController)
-//            }
+            } else if (str == COMPLETE_PUT_STONE) { //COMPLETE_PUT_STONE
+                println("get:$COMPLETE_PUT_STONE")
+                changeButtonClickable(false)
+            } else if (str == PASS) {
+                if (reversi.board.searchPlaceableCoordinate(reversi.myStoneColor).size == 0) {
+                    changeController(HomeSceneController)
+                    ws.send(Gson().toJson(Command(GAME_END)))
+                    ws.close(1001,"")
+                    Window.contentPane = Result()
+                } else {
+                    changeButtonClickable(true)
+                }
+            } else if (str == GAME_END) {
+                Window.contentPane = Result()
+                ws.close(1001,"")
+            }
         }
     }
 }
