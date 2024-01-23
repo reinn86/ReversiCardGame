@@ -4,6 +4,7 @@ import application.view.Panel
 import application.view.Window
 import application.view.scene.battle.Battle
 import application.view.scene.battle.Result
+import application.view.scene.home.Home
 import com.google.gson.Gson
 import domain.model.network.Command
 import domain.service.reversi.Coordinate
@@ -24,9 +25,8 @@ object BattleSceneController : AbstractController() {
     private const val DECIDE_TURN = "DECIDE_TURN"
     private const val COMPLETE_PUT_STONE = "COMPLETE_PUT_STONE"
     private const val PASS = "PASS"
-
     private const val GAME_END = "GAME_END"
-
+    private var isSleep = true
     //service
     val reversi = Reversi()
 
@@ -40,8 +40,8 @@ object BattleSceneController : AbstractController() {
         peer = MatchMakeSceneController.wsc
         Window.contentPane = battleScene
         connectClient()
-        println("roomID: ${peer.roomId}")
         ws = peer.connectWS(peer.roomId)
+
     }
     override fun onEnd() {}
     override fun onControllerChange() {}
@@ -52,17 +52,18 @@ object BattleSceneController : AbstractController() {
     override fun actionPerformed(e: ActionEvent) {
         when(e.actionCommand) {
             PUT_STONE -> {
-//                test
                 val coordinate = battleScene.getClickedBoardCoordinate()
                 val x = coordinate.x
                 val y = coordinate.y
                 val canPutStoneCoordinate = reversi.searchPlaceableCoordinate()
 
                 //石を置くことが可能な座標の数
+                for (i in canPutStoneCoordinate) {
+                    println("${i.x},${i.y}")
+                }
                 if (canPutStoneCoordinate.size == 0) {
                     try {
                         changeButtonClickable(false)
-//                    peer.send(PASS)
                         ws.send(Gson().toJson(Command(PASS)))
                         println("send:$PASS")
                     }catch (e:Exception) {
@@ -72,6 +73,7 @@ object BattleSceneController : AbstractController() {
                     for (i in canPutStoneCoordinate) {
                         if (i.matches(Coordinate(x, y))) {
                             putStone(x, y, reversi.myStoneColor)
+                            changeButtonClickable(false)
                             ws.send(Gson().toJson(Command("${PUT_STONE}_${x}_${y}")))
                             break
                         }
@@ -159,6 +161,7 @@ object BattleSceneController : AbstractController() {
     }
     
     fun startCommandReception(str :String) {
+
         thread {
 
             /*
@@ -185,13 +188,15 @@ object BattleSceneController : AbstractController() {
                 }
             } else if (str.matches(Regex("${PUT_STONE}_.+"))) { //PUT_STONE
                 println("get:$PUT_STONE")
-
                 commandPutStone(str)
-                ws.send(Gson().toJson(Command(COMPLETE_PUT_STONE)))
-                changeButtonClickable(true)
-
                 if (reversi.board.searchPlaceableCoordinate(reversi.myStoneColor).size == 0) {
+                    print("send:$PASS")
                     ws.send(Gson().toJson(Command(PASS)))
+                    changeButtonClickable(false)
+                }
+                else {
+                    ws.send(Gson().toJson(Command(COMPLETE_PUT_STONE)))
+                    changeButtonClickable(true)
                 }
 
             } else if (str == COMPLETE_PUT_STONE) { //COMPLETE_PUT_STONE
@@ -211,5 +216,11 @@ object BattleSceneController : AbstractController() {
                 ws.close(1001,"")
             }
         }
+    }
+    fun onClose() {
+        changeController(HomeSceneController)
+        Window.contentPane = Home()
+        isSleep = false
+        Window.repaint()
     }
 }

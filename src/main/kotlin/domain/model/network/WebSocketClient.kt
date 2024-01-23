@@ -23,6 +23,10 @@ class WebSocketClient{
         override fun onClosing(webSocket: WebSocket, code: Int, reason: String) {
             super.onClosing(webSocket, code, reason)
             isConnect = false
+            if(reason.isNotEmpty()) {
+                BattleSceneController.onClose()
+
+            }
             println("closing: $reason")
         }
 
