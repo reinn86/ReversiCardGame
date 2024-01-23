@@ -36,6 +36,11 @@ class Home : Panel() {
     private val moveCasualBattleButtonText = "バトルテスト h"
     private val moveRankBattleButtonText = "バトルテスト c"
     private val bgPath = "src/main/resources/image/bg_title.jpeg"
+
+    private val bgImageWidth
+        get() = vw(100.0)
+    private val bgImageHeight
+        get() = vh(100.0)
     @Override
     override fun paintComponent(g: Graphics) {
         //locations
@@ -43,8 +48,8 @@ class Home : Panel() {
         val bgLocationY = 0
 
         //sizes
-        val bgImageWidth = vw(100.0)
-        val bgImageHeight = vh(100.0)
+//        val bgImageWidth = vw(100.0)
+//        val bgImageHeight = vh(100.0)
 
         //images
         val bgImage = ImageIO.read(File(bgPath)).getScaledInstance(

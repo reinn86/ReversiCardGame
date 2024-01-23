@@ -1,2 +1,7 @@
-package PACKAGE_NAME;public class CompileTest {
+public class CompileTest {
+    public static void main(String[] args) {
+        String str = null;
+
+        System.out.println(str);
+    }
 }

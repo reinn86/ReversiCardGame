@@ -1,2 +1,6 @@
-class Test1 {
+fun main() {
+    val name = "haruki"
+
+    println("Hello world!!")
+    println("${name}さんようこそ\nこれはkotlinです")
 }

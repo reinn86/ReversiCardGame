@@ -26,15 +26,15 @@ object HomeSceneController : AbstractController(){
             MOVE_TITLE -> {
                 changeController(TitleSceneController)
             }
-            MOVE_TEST_BATTLE_S -> {
-                //TODO ホストとクライアントを自動で決める機能の作成
-                changeController(BattleSceneController)
-//                BattleSceneController.connectServer()
-            }
-            MOVE_TEST_BATTLE_C -> {
-                changeController(BattleSceneController)
-//                BattleSceneController.connectClient()
-            }
+//            MOVE_TEST_BATTLE_S -> {
+//                //TODO ホストとクライアントを自動で決める機能の作成
+//                changeController(BattleSceneController)
+////                BattleSceneController.connectServer()
+//            }
+//            MOVE_TEST_BATTLE_C -> {
+//                changeController(BattleSceneController)
+////                BattleSceneController.connectClient()
+//            }
             MOVE_BATTLE -> {
                 changeController(MatchMakeSceneController)
             }

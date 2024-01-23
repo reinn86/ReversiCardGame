@@ -9,10 +9,10 @@ import java.util.concurrent.Executors
 import javax.swing.JPanel
 
 object MatchMakeSceneController : AbstractController() {
-    var executor = Executors.newSingleThreadExecutor()
+//    var executor = Executors.newSingleThreadExecutor()
     override var mainPanel: JPanel = MatchMake()
     lateinit var wsc: WebSocketClient
-    lateinit var ws : WebSocket
+    private lateinit var ws : WebSocket
     override fun onControllerChange() {}
     private lateinit var connectThread:Thread
 //    = Thread {

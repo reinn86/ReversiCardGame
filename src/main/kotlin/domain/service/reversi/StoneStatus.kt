@@ -5,7 +5,7 @@ object StoneStatus {
     const val BLACK = 1
     const val WHITE = 2
 
-    /*
+    /**
      * 逆の色を返す関数
      * 引数が不正な時-1を返します
      */
