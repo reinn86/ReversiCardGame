@@ -103,7 +103,7 @@ object BattleSceneController : AbstractController() {
 
     private fun putStone(x: Int, y: Int,state: Int) {
         //TODO　下の関数は他クラスに干渉するべきではないのでリファクタした方がいいかも
-        val put = reversi.board.getReversibleStoneCoordinatesVector8(x,y, state)
+        val put = reversi.board.a(x,y, state)
         for (i in put) {
             reversi.putStone(i.x, i.y, state)
             if (state == StoneStatus.BLACK) {
@@ -152,6 +152,7 @@ object BattleSceneController : AbstractController() {
         battleScene.boardPanel.initBoard()
         reversi.board.initBoard()
     }
+<<<<<<< HEAD
     
     fun startCommandReception(str :String) {
         thread {
@@ -160,6 +161,20 @@ object BattleSceneController : AbstractController() {
              */
                     println(str)
 
+=======
+
+    private fun connectClient() {
+        setUpBattle()
+
+    }
+    
+    fun startCommandReception(str :String) {
+        thread {
+
+            /*
+             * fixme コマンドのところには流れを書くのではなく処理を描く
+             */
+>>>>>>> origin/master
             if (str == "StartCommand" && peer.isPlayer1 == true) {
                 decideStoneColor()
             }

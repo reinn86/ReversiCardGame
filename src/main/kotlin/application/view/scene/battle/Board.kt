@@ -15,7 +15,7 @@ class Board : Panel(),ActionListener {
     private val blackStoneImage = ImageIcon("src/main/resources/image/game_reversi_black.png")
     private val whiteStoneImage = ImageIcon("src/main/resources/image/game_reversi_white.png")
     private val gridSize  = 6 - 1
-    val squares = Array(6) {
+    public val squares = Array(6) {
         arrayOfNulls<JButton>(6)
     }
     private var clickedButton = ""

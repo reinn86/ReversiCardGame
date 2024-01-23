@@ -88,6 +88,8 @@ class Welcome : Panel(){
     @Override
     override fun paintComponent(g: Graphics) {
         super.paintComponent(g)
+        println("test")
+
         //fonts
         val titleFont = Font("Serif",Font.PLAIN,vw(10.0))
 

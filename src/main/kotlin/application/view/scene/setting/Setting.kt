@@ -36,6 +36,12 @@ class Setting : Panel(){
     private val prevButtonText = "×"
     private val resolutionLabelText = "解像度"
 
+    //fonts
+    private val selectionFont
+        get() = Font("Serif", Font.PLAIN,vw(5.0))
+    //images
+    private val bugBufferedImage
+        get() = ImageIO.read(File(bgPath))
     //解像度リスト
     private val resolutions = Resolution.values()
 
@@ -78,21 +84,17 @@ class Setting : Panel(){
     @Override
     override fun paintComponent(g: Graphics) {
         super.paintComponent(g)
-        //fonts
-        val selectionFont = Font("Serif", Font.PLAIN,vw(5.0))
-
         //sizes
-        val bgImageWidth = vw((vh(100.0)/(ImageIO.read(File(bgPath)).height)) * 100.0)
-//        val bgImageWidth = ImageIO.read(File(bgPath)).width
+
+        val bgImageWidth = vw((vh(100.0)/bugBufferedImage.height) * 100.0)
         val bgImageHeight = vh(100.0)
-//        val bgImageHeight = ImageIO.read(File(bgPath)).height
+
         //locations
-//        val bgLocationX = -(bgImageWidth /2) + ApplicationEnvironment.appResolution.toDimension().width/2 -16
         val bgLocationX = horizontalCenter(bgImageWidth)
         val bgLocationY = 0
 
         //images
-        val bgImage = ImageIO.read(File(bgPath)).getScaledInstance(
+        val bgImage = bugBufferedImage.getScaledInstance(
                 bgImageWidth,
                 bgImageHeight,
                 Image.SCALE_REPLICATE

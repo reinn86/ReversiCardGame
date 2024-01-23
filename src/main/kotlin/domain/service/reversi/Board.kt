@@ -45,7 +45,7 @@ class Board(troutX: Int, troutY: Int) {
     /*
      * 指定した座標の状態を返す関数
      */
-    fun getState(x: Int, y:Int): Int {
+    private fun getState(x: Int, y:Int): Int {
         return boardState[x][y]
     }
 
@@ -64,45 +64,93 @@ class Board(troutX: Int, troutY: Int) {
         }
         return coordinates
     }
+    private fun printTest(r:ArrayList<Coordinate>) {
+        for (i in r) {
+            print(boardState[i.x][i.y])
+        }
+        println()
+    }
 
-    /*
-     * ひっくり返せる座標を配列で返す
-     */
+    //置ける座標か判断する
     private fun getReversibleCoordinates(rayCoordinates: ArrayList<Coordinate>, stoneColor: Int): ArrayList<Coordinate> {
-        val reversibleCoordinates = arrayListOf<Coordinate>()
-        //TODO 処理が煩雑なのでもうちょい見やすく書き直す
-        /*
-         * 石は何もないところだけにおかれるべきなので
-         * 最初の配列の０番目（初期位置）が空白でない場合に空の配列が返される
+        val rivalStoneColor = StoneStatus.getReverseColor(stoneColor)
+        val rc = arrayListOf<Coordinate>()
+        /* 最初が空白ではないまたは
+         * 次が敵の石ではない
+         * 場合は処理を終了する
          */
         if (getState(rayCoordinates[0].x,rayCoordinates[0].y) != StoneStatus.EMPTY) {
-            return reversibleCoordinates
+            return rc
         }
-        val target = arrayListOf<Int>()
-        for (coordinate in rayCoordinates) {
-            target.add(boardState[coordinate.x][coordinate.y])
+        else if(rayCoordinates.size >= 2
+            && getState(rayCoordinates[1].x,rayCoordinates[1].y) != rivalStoneColor) {
+            return rc
         }
-        val rivalStoneColor = StoneStatus.getReverseColor(stoneColor)
-
-
-        if (target.indexOf(rivalStoneColor) != -1 && target.indexOf(stoneColor) != -1) { //敵の色がある
-            for(i in 1 until target.size) { //敵の色がある間
-                if (boardState[rayCoordinates[i].x][rayCoordinates[i].y] == StoneStatus.EMPTY) {
-                    return arrayListOf()
-                }
-                else if (boardState[rayCoordinates[i].x][rayCoordinates[i].y] == rivalStoneColor //敵の色の間
-                    && boardState[rayCoordinates[i].x][rayCoordinates[i].y] != StoneStatus.EMPTY) {
-                    reversibleCoordinates.add(Coordinate(rayCoordinates[i].x,rayCoordinates[i].y))
-                }
-                else if(boardState[rayCoordinates[i].x][rayCoordinates[i].y] == stoneColor) { //自分の色になったら
-                    if(reversibleCoordinates.size >= 1 && boardState[rayCoordinates[i].x][rayCoordinates[i].y] != rivalStoneColor) {
-                        reversibleCoordinates.add(0,Coordinate(rayCoordinates[0].x,rayCoordinates[0].y))
-                        println("${rayCoordinates[0].x}:${rayCoordinates[0].y}")
-                        return reversibleCoordinates
-                    }
-                    return arrayListOf()
-                }
+        //直線座標読み込み
+        for ((j, r) in rayCoordinates.withIndex()) {
+            //座標にあるステータスが空白になったら処理終了
+            if (boardState[r.x][r.y] == StoneStatus.EMPTY && j != 0) {
+                return arrayListOf()
             }
+            //自分の色になったらそれまでの座標は返せるのでリストに追加
+            else if(boardState[r.x][r.y] == stoneColor) {
+                rc.add(Coordinate(rayCoordinates[0].x,rayCoordinates[0].y))
+                return rc
+            }
+        }
+        return arrayListOf()
+    }
+
+    fun a(x: Int, y: Int, stoneColor: Int): ArrayList<Coordinate> {
+        val coordinates = arrayListOf<Coordinate>()
+
+        for (i in 0 until 8) {
+            val hVector = round(cos(i* PI/4)).toInt()
+            val vVector = round(sin(i* PI/4)).toInt()
+            val rayCoordinate = getRayCoordinate(x,y,hVector,vVector)
+            val canTurnOverCoordinates = b(rayCoordinate,stoneColor)
+
+            for (j in 0 until canTurnOverCoordinates.size) {
+                coordinates.add(canTurnOverCoordinates[j])
+            }
+        }
+        return coordinates
+    }
+    //返せる座標を配列で返す
+    private fun b(rayCoordinates: ArrayList<Coordinate>, stoneColor: Int): ArrayList<Coordinate> {
+        val rivalStoneColor = StoneStatus.getReverseColor(stoneColor)
+        val rc = arrayListOf<Coordinate>()
+        /* 最初が空白ではないまたは
+         * 次が敵の石ではない
+         * 場合は処理を終了する
+         */
+        if (getState(rayCoordinates[0].x,rayCoordinates[0].y) != StoneStatus.EMPTY) {
+            return rc
+        }
+        else if(rayCoordinates.size >= 2
+            && getState(rayCoordinates[1].x,rayCoordinates[1].y) != rivalStoneColor) {
+            return rc
+        }
+        var j = 0
+        //直線座標読み込み
+        printTest(rayCoordinates)
+        for (r in rayCoordinates) {
+            //座標にあるステータスが空白になったら処理終了
+            if (boardState[r.x][r.y] == StoneStatus.EMPTY && j != 0) {
+                return arrayListOf()
+            }
+            //自分の色になったらそれまでの座標は返せるのでリストに追加
+            else if(boardState[r.x][r.y] == stoneColor) {
+//                rc.add(Coordinate(rayCoordinates[0].x,rayCoordinates[0].y))
+//                println("rc:${rc[0].x},${rc[0].y}")
+//                return rc
+                for(i in 0 until j) {
+                    rc.add(i,Coordinate(rayCoordinates[i].x,rayCoordinates[i].y))
+                    println("rc:${rc[i].x},${rc[i].y}")
+                }
+                return rc
+            }
+            j++
         }
         return arrayListOf()
     }
