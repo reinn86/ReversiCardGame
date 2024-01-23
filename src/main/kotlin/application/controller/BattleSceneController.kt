@@ -187,11 +187,14 @@ object BattleSceneController : AbstractController() {
                 println("get:$PUT_STONE")
 
                 commandPutStone(str)
-                ws.send(Gson().toJson(Command(COMPLETE_PUT_STONE)))
-                changeButtonClickable(true)
+
 
                 if (reversi.board.searchPlaceableCoordinate(reversi.myStoneColor).size == 0) {
+                    changeButtonClickable(false)
                     ws.send(Gson().toJson(Command(PASS)))
+                }else {
+                    ws.send(Gson().toJson(Command(COMPLETE_PUT_STONE)))
+                    changeButtonClickable(true)
                 }
 
             } else if (str == COMPLETE_PUT_STONE) { //COMPLETE_PUT_STONE
