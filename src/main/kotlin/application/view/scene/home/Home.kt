@@ -30,7 +30,6 @@ class Home : Panel() {
     private val moveTitleButton = JButton()
     private val moveBattleButton = JButton()
 
-<<<<<<< HEAD
     //texts
     private val moveCasualBattleButtonText = "バトルテスト h"
     private val moveRankBattleButtonText = "バトルテスト c"
@@ -40,8 +39,7 @@ class Home : Panel() {
         get() = vw(100.0)
     private val bgImageHeight
         get() = vh(100.0)
-=======
->>>>>>> origin/master
+
     @Override
     override fun paintComponent(g: Graphics) {
         //locations

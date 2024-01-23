@@ -152,18 +152,8 @@ object BattleSceneController : AbstractController() {
         battleScene.boardPanel.initBoard()
         reversi.board.initBoard()
     }
-<<<<<<< HEAD
-    
-    fun startCommandReception(str :String) {
-        thread {
-            /*
-             * fixme コマンドのところには流れを書くのではなく処理を描く
-             */
-                    println(str)
 
-=======
-
-    private fun connectClient() {
+    fun connectClient() {
         setUpBattle()
 
     }
@@ -174,11 +164,9 @@ object BattleSceneController : AbstractController() {
             /*
              * fixme コマンドのところには流れを書くのではなく処理を描く
              */
->>>>>>> origin/master
             if (str == "StartCommand" && peer.isPlayer1 == true) {
                 decideStoneColor()
-            }
-            else if (str.matches(Regex("${CONNECT}_.*"))) {
+            } else if (str.matches(Regex("${CONNECT}_.*"))) {
                 println("get:$CONNECT")
 
 
@@ -212,14 +200,14 @@ object BattleSceneController : AbstractController() {
                 if (reversi.board.searchPlaceableCoordinate(reversi.myStoneColor).size == 0) {
                     changeController(HomeSceneController)
                     ws.send(Gson().toJson(Command(GAME_END)))
-                    ws.close(1001,"")
+                    ws.close(1001, "")
                     Window.contentPane = Result()
                 } else {
                     changeButtonClickable(true)
                 }
             } else if (str == GAME_END) {
                 Window.contentPane = Result()
-                ws.close(1001,"")
+                ws.close(1001, "")
             }
         }
     }
