@@ -81,7 +81,10 @@ class Welcome : Panel(){
         add(settingButton)
         add(startButton)
     }
-
+    val settingIconWidth
+        get() = vw(13.5)
+    val settingIconHeight
+        get() = vw(13.5)
     @Override
     override fun paintComponent(g: Graphics) {
         super.paintComponent(g)

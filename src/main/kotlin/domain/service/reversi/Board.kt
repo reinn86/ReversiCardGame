@@ -64,12 +64,6 @@ class Board(troutX: Int, troutY: Int) {
         }
         return coordinates
     }
-    private fun printTest(r:ArrayList<Coordinate>) {
-        for (i in r) {
-            print(boardState[i.x][i.y])
-        }
-        println()
-    }
 
     //置ける座標か判断する
     private fun getReversibleCoordinates(rayCoordinates: ArrayList<Coordinate>, stoneColor: Int): ArrayList<Coordinate> {
@@ -131,26 +125,19 @@ class Board(troutX: Int, troutY: Int) {
             && getState(rayCoordinates[1].x,rayCoordinates[1].y) != rivalStoneColor) {
             return rc
         }
-        var j = 0
         //直線座標読み込み
-        printTest(rayCoordinates)
-        for (r in rayCoordinates) {
+        for ((j, r) in rayCoordinates.withIndex()) {
             //座標にあるステータスが空白になったら処理終了
             if (boardState[r.x][r.y] == StoneStatus.EMPTY && j != 0) {
                 return arrayListOf()
             }
             //自分の色になったらそれまでの座標は返せるのでリストに追加
             else if(boardState[r.x][r.y] == stoneColor) {
-//                rc.add(Coordinate(rayCoordinates[0].x,rayCoordinates[0].y))
-//                println("rc:${rc[0].x},${rc[0].y}")
-//                return rc
                 for(i in 0 until j) {
                     rc.add(i,Coordinate(rayCoordinates[i].x,rayCoordinates[i].y))
-                    println("rc:${rc[i].x},${rc[i].y}")
                 }
                 return rc
             }
-            j++
         }
         return arrayListOf()
     }
@@ -165,8 +152,8 @@ class Board(troutX: Int, troutY: Int) {
         for (nowY in 0 until troutY) {
             for (nowX in 0 until troutX) {
                 val canTurnOverCoordinates = getReversibleStoneCoordinatesVector8(nowX, nowY, stoneColor)
-                for (i in canTurnOverCoordinates) {
-                    coordinates.add(i)
+                for (c in canTurnOverCoordinates) {
+                    coordinates.add(c)
                 }
             }
         }

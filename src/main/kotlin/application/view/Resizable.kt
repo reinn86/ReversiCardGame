@@ -10,7 +10,7 @@ interface Resizable {
     }
 
     fun vw(width:Int,percentage :Double):Int {
-        return  (width * (percentage / 100.0)).toInt()
+        return (width * (percentage / 100.0)).toInt()
     }
 
     fun vh(percentage :Double) :Int{
