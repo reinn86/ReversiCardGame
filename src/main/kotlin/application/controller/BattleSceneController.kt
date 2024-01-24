@@ -9,6 +9,7 @@ import domain.model.network.Command
 import domain.service.reversi.Coordinate
 import domain.service.reversi.Reversi
 import domain.service.reversi.StoneStatus
+import domain.service.reversi.Timer
 import okhttp3.WebSocket
 import java.awt.event.ActionEvent
 import javax.swing.JPanel
@@ -35,7 +36,7 @@ object BattleSceneController : AbstractController() {
     private  var peer = MatchMakeSceneController.wsc
     private lateinit var ws : WebSocket
     //scene
-    private val battleScene = Battle()
+    val battleScene = Battle()
     override fun onStart() {
         peer = MatchMakeSceneController.wsc
         Window.contentPane = battleScene
@@ -126,6 +127,8 @@ object BattleSceneController : AbstractController() {
     /*
      * ボタンをクリック可能かを変える関数
      */
+    val t = Timer()
+
     private fun changeButtonClickable(clickable: Boolean) {
         if (clickable) {
             for (buttons in battleScene.boardPanel.squares) {
@@ -133,17 +136,32 @@ object BattleSceneController : AbstractController() {
                     i!!.isEnabled = true
                 }
             }
-
+            t.reset()
+            t.timer.start()
         }
         else {
+            t.isTimeCome = true
             for (buttons in battleScene.boardPanel.squares) {
                 for (i in buttons) {
                     i!!.isEnabled = false
                 }
             }
         }
+        val myStoneCount = reversi.board.countStone(reversi.myStoneColor).toString()
+        val rivalStoneCount = reversi.board.countStone(reversi.getRivalStoneColor()).toString()
+        battleScene.myStoneCountLabel.text = "自分:${myStoneCount}"
+        battleScene.rivalStoneCountLabel.text = "相手:${rivalStoneCount}"
     }
 
+    fun autoPut() {
+        val coordinate = reversi.board.searchPlaceableCoordinate(reversi.myStoneColor)
+        val rnd = (Math.random()*coordinate.size).toInt()
+        battleScene.boardPanel.squares[coordinate[rnd].x][coordinate[rnd].y]?.doClick()
+        val myStoneCount = reversi.board.countStone(reversi.myStoneColor).toString()
+        val rivalStoneCount = reversi.board.countStone(reversi.getRivalStoneColor()).toString()
+        battleScene.myStoneCountLabel.text = "自分:${myStoneCount}"
+        battleScene.rivalStoneCountLabel.text = "相手:${rivalStoneCount}"
+    }
     /*
      * バトルのセットアップをする関数
      * ボードの初期化をします
@@ -151,6 +169,7 @@ object BattleSceneController : AbstractController() {
     private fun setUpBattle() {
         battleScene.boardPanel.initBoard()
         reversi.board.initBoard()
+        t.reset()
     }
 
     private fun connectClient() {
@@ -160,7 +179,10 @@ object BattleSceneController : AbstractController() {
     
     fun startCommandReception(str :String) {
         thread {
-
+            val myStoneCount = reversi.board.countStone(reversi.myStoneColor).toString()
+            val rivalStoneCount = reversi.board.countStone(reversi.getRivalStoneColor()).toString()
+            battleScene.myStoneCountLabel.text = "自分:${myStoneCount}"
+            battleScene.rivalStoneCountLabel.text = "相手:${rivalStoneCount}"
             /*
              * fixme コマンドのところには流れを書くのではなく処理を描く
              */
@@ -205,12 +227,14 @@ object BattleSceneController : AbstractController() {
                     changeController(HomeSceneController)
                     ws.send(Gson().toJson(Command(GAME_END)))
                     ws.close(1001,"")
+                    t.isTimeCome = true
                     Window.contentPane = Result()
                 } else {
                     changeButtonClickable(true)
                 }
             } else if (str == GAME_END) {
                 Window.contentPane = Result()
+                t.isTimeCome = true
                 ws.close(1001,"")
             }
         }

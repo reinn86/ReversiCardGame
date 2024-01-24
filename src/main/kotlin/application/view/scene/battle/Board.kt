@@ -28,10 +28,10 @@ class Board : Panel(),ActionListener {
         isOpaque = true
         for (y in 0 .. gridSize) {
             for (x in 0 .. gridSize) {
-                val squareWidth = size.width /6
-                val squareHeight = size.height /6
-                val localX = size.width /6 * x
-                val localY = size.width /6 * y
+                val squareWidth = size.width /6.0
+                val squareHeight = size.height /6.0
+                val localX = size.width /6.0 * x
+                val localY = size.width /6.0 * y
 
                 squares[x][y] = JButton()
                 squares[x][y]!!.name = "${x}_${y}"
@@ -40,9 +40,9 @@ class Board : Panel(),ActionListener {
                 squares[x][y]!!.isContentAreaFilled = true
                 squares[x][y]!!.background = null
                 squares[x][y]!!.actionCommand = "${x}_${y}"
-                squares[x][y]!!.size  = Dimension(squareWidth,squareHeight)
+                squares[x][y]!!.size  = Dimension(squareWidth.toInt(),squareHeight.toInt())
                 squares[x][y]!!.addActionListener(this)
-                squares[x][y]!!.setLocation(localX,localY)
+                squares[x][y]!!.setLocation(localX.toInt(),localY.toInt())
                 add(squares[x][y])
             }
         }
