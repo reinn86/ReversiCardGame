@@ -188,7 +188,7 @@ class Board(troutX: Int, troutY: Int) {
      * 石をリバーシの初期状態になるように配置する関数
      * TODO 初期配置を変えられるようにするためにオーバーロードした関数を作る
      */
-    fun firstPutStones() {
+    private fun firstPutStones() {
         boardState[2][2] = StoneStatus.WHITE
         boardState[2][3] = StoneStatus.BLACK
         boardState[3][2] = StoneStatus.BLACK

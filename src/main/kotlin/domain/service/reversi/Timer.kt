@@ -9,7 +9,7 @@ class Timer {
     private var time = 20
     var isTimeCome = false
     private var now = 0L
-    val remainingTime
+    private val remainingTime
         get() = time - now
     private var startTime = System.nanoTime()
 

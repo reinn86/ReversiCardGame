@@ -2,12 +2,11 @@ package application.view.scene.battle
 
 import application.view.Panel
 import domain.service.reversi.Coordinate
-import java.awt.Dimension
-import java.awt.Graphics
-import java.awt.Image
+import java.awt.*
 import java.io.File
 import javax.imageio.ImageIO
 import javax.swing.JLabel
+import javax.swing.JPanel
 
 class Battle : Panel() {
     //sizes
@@ -32,7 +31,7 @@ class Battle : Panel() {
     val myStoneCountLabel = JLabel("自分:0")
     val rivalStoneCountLabel = JLabel("相手:0")
     val timerLabel = JLabel("20")
-
+    val dPanel = JPanel()
     private val bgPath = "src/main/resources/image/bg_battle.jpg"
 
     @Override
@@ -51,7 +50,7 @@ class Battle : Panel() {
             bgImageHeight,
             Image.SCALE_DEFAULT
         )
-
+        timerLabel.font = Font("Serif", Font.PLAIN,vw(12.0))
         g.drawImage(bgImage,bgLocationX,bgLocationY,this)
     }
     init {
@@ -61,7 +60,8 @@ class Battle : Panel() {
         boardPanel.setLocation(boardPanelX,boardPanelY)
 
         //timerLabelの設定
-        timerLabel.isOpaque = true
+        timerLabel.foreground = Color.RED
+        timerLabel.isOpaque = false
         timerLabel.size = timerLabelSize
         timerLabel.setLocation(timerLabelX,timerLabelY )
 

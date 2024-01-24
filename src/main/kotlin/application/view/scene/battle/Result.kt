@@ -4,13 +4,19 @@ import application.controller.BattleSceneController
 import application.controller.BattleSceneController.MOVE_HOME
 import application.view.Panel
 import java.awt.Dimension
+import java.awt.Font
+import java.awt.Graphics
+import java.awt.Image
+import java.io.File
+import javax.imageio.ImageIO
 import javax.swing.JButton
 import javax.swing.JLabel
+import javax.swing.JPanel
 
 class Result : Panel() {
     private val resultText = getResult()
     private val resultTextLabel = JLabel()
-    private val resultTextLabelSize =Dimension(vw(80.0),vh(20.0))
+    private val resultTextLabelSize = Dimension(vw(80.0),vh(50.0))
     private val resultTextLabelX = vw(10.0)
     private val resultTextLabelY = vh(10.0)
 
@@ -20,8 +26,13 @@ class Result : Panel() {
     private val moveHomeButtonX = vw(10.0)
     private val moveHomeButtonY = vh(70.0)
 
+    private val imagePanel = JPanel()
+    private val imagePanelSize = Dimension(vw(70.0),vw(70.0))
+    private val imagePanelLabelX = vw(15.0)
+    private val imagePanelLabelY = vh(10.0)
+
     init {
-        resultTextLabel.isOpaque = true
+        resultTextLabel.isOpaque = false
         resultTextLabel.size = resultTextLabelSize
         resultTextLabel.text = resultText
         resultTextLabel.setLocation(resultTextLabelX,resultTextLabelY)
@@ -33,7 +44,12 @@ class Result : Panel() {
         moveHomeButton.addActionListener(BattleSceneController)
         moveHomeButton.setLocation(moveHomeButtonX,moveHomeButtonY)
 
+        imagePanel.isOpaque = true
+        imagePanel.size = imagePanelSize
+        imagePanel.setLocation(imagePanelLabelX,imagePanelLabelY)
+
         add(resultTextLabel)
+//        add(imagePanel)
         add(moveHomeButton)
     }
 
@@ -43,11 +59,33 @@ class Result : Panel() {
         val myStoneCount = BattleSceneController.reversi.board.countStone(myStoneColor)
         val rivalStoneCount = BattleSceneController.reversi.board.countStone(rivalStoneColor)
         if(myStoneCount > rivalStoneCount) {
-            return "あなたの勝ちです！"
+            return "勝利！"
         } else if(myStoneColor < rivalStoneCount) {
-            return "あなたの負けです…"
+            return "敗北…"
         } else {
-            return "引き分けでした"
+            return "どろー"
         }
+    }
+
+    private val bgPath = "src/main/resources/image/bg_battle.jpg"
+
+    @Override
+    override fun paintComponent(g: Graphics) {
+        //locations
+        val bgLocationX = 0
+        val bgLocationY = 0
+
+        //sizes
+        val bgImageWidth = vw(100.0)
+        val bgImageHeight = vh(100.0)
+
+        //images
+        val bgImage = ImageIO.read(File(bgPath)).getScaledInstance(
+            bgImageWidth,
+            bgImageHeight,
+            Image.SCALE_DEFAULT
+        )
+        resultTextLabel.font = Font("Serif", Font.PLAIN,vw(25.0))
+        g.drawImage(bgImage,bgLocationX,bgLocationY,this)
     }
 }

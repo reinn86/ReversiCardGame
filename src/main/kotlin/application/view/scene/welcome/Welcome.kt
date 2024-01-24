@@ -11,6 +11,7 @@ import javax.imageio.ImageIO
 import javax.swing.ImageIcon
 import javax.swing.JButton
 import javax.swing.JLabel
+import javax.swing.SwingConstants
 
 class Welcome : Panel(){
     // TODO コンポーネントごとに変数を配置した方がいい
@@ -36,7 +37,7 @@ class Welcome : Panel(){
 
     //texts
     private val startLabelText = "Click to start"
-    private val titleCallLabelText = "Reversi Card Game"
+    private val titleCallLabelText = "Reversi Game"
 
     //components
     private val settingButton = JButton()
@@ -65,12 +66,14 @@ class Welcome : Panel(){
         startLabel.isOpaque = false
         startLabel.size = startLabelSize
         startLabel.text = startLabelText
+        startLabel.horizontalAlignment = SwingConstants.CENTER
         startLabel.setLocation(startLabelX,startLabelY)
 
         //titleCallLabelの設定
         titleCallLabel.isOpaque = false
         titleCallLabel.size = titleCallLabelSize
         titleCallLabel.text = titleCallLabelText
+        titleCallLabel.horizontalAlignment = SwingConstants.CENTER
         titleCallLabel.setLocation(titleCallLabelX,titleCallLabelY)
 
         //componentの配置
@@ -91,8 +94,8 @@ class Welcome : Panel(){
         println("test")
 
         //fonts
-        val titleFont = Font("Serif",Font.PLAIN,vw(10.0))
-
+        val titleFont = Font("Serif",Font.PLAIN,vw(11.0))
+        val startFont = Font("Serif",Font.PLAIN,vw(8.0))
         //locations
         val bgLocationX = 0
         val bgLocationY = 0
@@ -117,6 +120,7 @@ class Welcome : Panel(){
 
         settingButton.icon = ImageIcon(settingIcon)
         titleCallLabel.font = titleFont
+        startLabel.font = startFont
 
         g.drawImage(bgImage,bgLocationX,bgLocationY,this)
     }
