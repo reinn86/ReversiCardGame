@@ -7,14 +7,14 @@ import okhttp3.*
 import okio.ByteString
 import java.util.*
 
-class WebSocketClient {
+class WebSocketClient{
+    private lateinit var ws: WebSocket
     var roomId: String? = null // roomId保存用変数
-    private var playerId: String? = null // playerId保存用変数
-    var isPlayer1: Boolean? = null
+    var playerId: String? = null // plyaerId保存用変数
+    var isPlayer1:Boolean? = null
     var isConnect = false
-
     // リスナーを外に切り分け
-    private val wsl: WebSocketListener = object : WebSocketListener() {
+    val wsl: WebSocketListener = object : WebSocketListener() {
         override fun onOpen(webSocket: WebSocket, response: Response) {
             super.onOpen(webSocket, response)
             println("open: $response")
@@ -23,10 +23,6 @@ class WebSocketClient {
         override fun onClosing(webSocket: WebSocket, code: Int, reason: String) {
             super.onClosing(webSocket, code, reason)
             isConnect = false
-            if (reason.isNotEmpty()) {
-                BattleSceneController.onClose()
-
-            }
             println("closing: $reason")
         }
 
@@ -42,7 +38,7 @@ class WebSocketClient {
 
         override fun onMessage(webSocket: WebSocket, text: String) {
             super.onMessage(webSocket, text)
-            println("message strings: $text")
+            println("message strs: $text")
             isConnect = true
             doCommand(text) // コマンド実行処理追加
         }
@@ -56,28 +52,28 @@ class WebSocketClient {
     // 接続処理を切り分け
     fun connectWS(roomId: String?): WebSocket {
         var url = "ws://localhost:8080/WebSocket/game"
-        val client = OkHttpClient()
-        val request = Request.Builder().url(url).build()
-
         if (roomId != null) {
             if (playerId == null) {
-                playerId = UUID.randomUUID().toString()
+                playerId = UUID.randomUUID().toString() // プレイヤーIDもUUIDで作ってしまう。
             }
-            url += "?roomId=$roomId&playerId=$playerId"
+            url += "?roomid=$roomId&playerid=$playerId"
         }
+        var client = OkHttpClient()
+        var request = Request.Builder()
+            .url(url)
+            .build()
         println("接続$url")
         return client.newWebSocket(request, wsl)
     }
 
     // コマンド実行処理
     fun doCommand(json: String?) {
-        println("受け取ったJSON: $json")
-        val jsonObject = Gson().fromJson(
+        println("受け取ったJSON: ${json}")
+        var jsonObject = Gson().fromJson(
             json,
             JsonObject::class.java
         )
-
-        if (jsonObject.has("roomId")) {
+       if (jsonObject.has("roomId")) {
             roomId = jsonObject["roomId"].asString
         }
         if (jsonObject.has("player1")) {
@@ -90,8 +86,13 @@ class WebSocketClient {
         }
         if (jsonObject.has("command")) {
             val command = jsonObject["command"].asString
-
+//            val jsonObject = Gson().fromJson(
+//                json,
+//                JsonObject::class.java
+//            )
+//            if (jsonObject.has("command")) {
             BattleSceneController.startCommandReception(command)
+//            }
         }
     }
 }
